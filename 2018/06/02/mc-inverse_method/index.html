@@ -93,22 +93,22 @@
 
 
 
-<meta name="description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（psudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbr">
+<meta name="description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lb">
 <meta name="keywords" content="抽样方法,蒙特卡洛模拟">
 <meta property="og:type" content="article">
 <meta property="og:title" content="蒙特卡洛抽样方法 -- Inverse Transform">
 <meta property="og:url" content="http://birdtao.github.io/2018/06/02/mc-inverse_method/index.html">
 <meta property="og:site_name" content="伯德涛的博客">
-<meta property="og:description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（psudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbr">
+<meta property="og:description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lb">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_pdf_Fotor.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_cdf.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/cdf_seve_uni.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/pdf_seve_uni.png">
-<meta property="og:updated_time" content="2018-06-03T10:58:36.981Z">
+<meta property="og:updated_time" content="2018-06-03T12:15:10.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛抽样方法 -- Inverse Transform">
-<meta name="twitter:description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（psudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbr">
+<meta name="twitter:description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lb">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_pdf_Fotor.png">
 
 
@@ -398,7 +398,7 @@
       
 
       
-        <h2 id="蒙特卡洛抽样方法之-Inverse-Transform"><a href="#蒙特卡洛抽样方法之-Inverse-Transform" class="headerlink" title="蒙特卡洛抽样方法之 Inverse Transform"></a>蒙特卡洛抽样方法之 Inverse Transform</h2><h3 id="一、计算机的随机数抽样过程："><a href="#一、计算机的随机数抽样过程：" class="headerlink" title="一、计算机的随机数抽样过程："></a>一、计算机的随机数抽样过程：</h3><p>计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（psudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbrace u_n\rbrace$这样的序列，其中：<br>\begin{align}<br>u_{k} = D(u_{k-1})<br>\end{align}</p>
+        <h2 id="蒙特卡洛抽样方法之-Inverse-Transform"><a href="#蒙特卡洛抽样方法之-Inverse-Transform" class="headerlink" title="蒙特卡洛抽样方法之 Inverse Transform"></a>蒙特卡洛抽样方法之 Inverse Transform</h2><h3 id="一、计算机的随机数抽样过程："><a href="#一、计算机的随机数抽样过程：" class="headerlink" title="一、计算机的随机数抽样过程："></a>一、计算机的随机数抽样过程：</h3><p>计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbrace u_n\rbrace$这样的序列，其中：<br>\begin{align}<br>u_{k} = D(u_{k-1})<br>\end{align}</p>
 <p>之后，通过一些统计检验，从而将产生（伪造）的随机数中通过检验的进行保留，并将其转换为[0,1]区间上的实数，随后计算机便认为所生成的随机数是服从$U[0,1]$分布的独立样本了。</p>
 <p>本篇博文将会介绍如何通过Inverse Transform方法，从而将已经得到的$\lbrace u_n\rbrace$样本序列转换为服从一些其他特定的分布的随机样本。<br><a id="more"></a></p>
 <h3 id="二、Inverse-Transform方法转换均匀样本"><a href="#二、Inverse-Transform方法转换均匀样本" class="headerlink" title="二、Inverse Transform方法转换均匀样本"></a>二、Inverse Transform方法转换均匀样本</h3><p>顾名思义，Inverse具有着反函数的意思，该方法实则是运用概率分布函数中的反函数来对随机数进行转换。</p>
