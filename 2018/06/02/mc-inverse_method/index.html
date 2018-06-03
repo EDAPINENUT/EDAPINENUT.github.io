@@ -105,7 +105,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_cdf.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/cdf_seve_uni.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/pdf_seve_uni.png">
-<meta property="og:updated_time" content="2018-06-03T10:32:10.057Z">
+<meta property="og:updated_time" content="2018-06-03T10:44:53.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛抽样方法 -- Inverse Transform">
 <meta name="twitter:description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（psudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbr">
@@ -421,7 +421,7 @@
 <p>基于以下的事实：<br>·如果$X\sim Exp(\lambda)$, 则 $2X \sim Exp(\lambda/2)$;<br>·指数分布$Exp(\lambda)$等价于伽马分布$Ga(1,\lambda)$;<br>·伽马分布$Ga(\upsilon,\frac{1}{2})$等价于卡方分布$\chi^2_{2\upsilon}$;<br>·贝塔分布$\beta(a,b)$等价于$\frac{Ga(a,1)}{Ga(a,1)+Ga(b,1)}$.</p>
 <p>我们可以得出：<br>在计算机生成了一系列$\lbrace u_n\rbrace$后, 经过反转法变换，可以得到一系列$\lbrace x_n\rbrace$。<br>若其独立同分布于$Exp(1)$。由伽马分布的可加性：$X\sim Ga(a,\lambda),Y \sim Ga(b,\lambda)\Rightarrow X+Y \sim Ga(a+b,\lambda) $, 可以得到: </p>
 <p>·$2\sum_ {i=1}^{\upsilon}X_i\sim\chi^2_{2\upsilon}$;<br>·$\frac{1}{\beta}\sum_{i=1}^\alpha X_i \sim Ga(\alpha,\beta) $；<br>·$\frac{\sum_{i=1}^\alpha X_i }{\sum_{i=1}^{\alpha+\beta} X_i } \sim \beta(\alpha,\beta)$.</p>
-<p>由此就能通过生成 $U_i$，经过 Inverse Transform 生成 $X_i$，经过以上的变换生成一些特殊分布了。</p>
+<p>由此就能通过生成 $U_i$，经过 Inverse Transform 生成 $X_i$，再经过以上的变换生成一些特殊分布了。</p>
 <p>然而，这样的方法并非对于所有的伽马分布，贝塔分布等都可适用。容易得出，通过以上的转换所得出的如卡方分布的自由度 $2\upsilon$, 只能为一偶数；伽马分布与贝塔分布中的参数$\alpha$都只能为自然数 [Tips 4：在贝叶斯方法中，往往 $\alpha,\beta$ 等参数都是自然数，因此可适用]。</p>
 <p><strong>附</strong>：<br>1.$X\sim Exp(\lambda)$的证明：<br>$\begin{align*}<br>P(X\leq x) &amp;= P(-\frac{lnU}{\lambda}\leq x)\\<br>&amp;=P(U\geq e^{-\lambda x})\\<br>&amp;=1-e^{-\lambda x}<br>\end{align*}$<br>即为指数分布的cdf。</p>
 <p>2.以Inverse Transform 方法得到伽马分布的python代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#generate x with gamma(a,b)</span></span><br><span class="line">np.random.seed(<span class="number">1</span>)</span><br><span class="line">a = <span class="number">20</span> <span class="comment">#set value of a </span></span><br><span class="line">b = <span class="number">0.5</span> <span class="comment">#set value of b</span></span><br><span class="line">u = np.random.uniform(<span class="number">0</span>,<span class="number">1</span>,a) <span class="comment">#generate ui</span></span><br><span class="line">x = np.sum(-np.log(u))/b <span class="comment">#compute x</span></span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure></p>
