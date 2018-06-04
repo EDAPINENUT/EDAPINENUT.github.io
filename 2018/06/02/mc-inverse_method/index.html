@@ -105,7 +105,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_cdf.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/cdf_seve_uni.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/pdf_seve_uni.png">
-<meta property="og:updated_time" content="2018-06-03T12:15:10.387Z">
+<meta property="og:updated_time" content="2018-06-04T15:16:31.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛抽样方法 -- Inverse Transform">
 <meta name="twitter:description" content="蒙特卡洛抽样方法之 Inverse Transform一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lb">
@@ -411,7 +411,7 @@
 <p><strong>Algorithm:</strong><br>已知随机变量X服从的累计密度函数$F$以及其累计密度函数的反函数$F^{-1}$，则进行以下操作：<br>　　Step 1: 生成随机变量$U \sim \mathscr{U}[0,1]$。<br>　　Step 2: 令$X = F^{-1}(U)$, 则计算得出的X即为目标分布的随机变量。</p>
 <p>看罢此算法后，肯定有人不解，那么按照这样的算法，不是任意分布的随机变量都可以由反转法得到了吗？<br>其实不然，该算法的关键难点便是$F$与$F^{-1}$的解析形式。多数情况下，累计分布函数的解析形式都是无法写出的，更别说其反函数形式了。典型的例子就是正态分布，其cdf始终无法用解析形式表达，因此此方法的适用性实则十分有限。</p>
 <h5 id="3-Inverse-Transform-方法的应用"><a href="#3-Inverse-Transform-方法的应用" class="headerlink" title="3.Inverse Transform 方法的应用"></a>3.Inverse Transform 方法的应用</h5><p>反转法虽然适用范围很一般，但是实际上还是有许多随机变量的生成还是依靠着该方法的。该方法的效率高[Tips 3: 计算时间复杂度低，且对于所有生成的随机变量都会进行接收]，占内存少等优点使得该方法仍然被运用在一些能够适用的场景。</p>
-<p>典型的就是一些指数的次数为1的指数分布族，如指数分布，卡方分布，伽马分布，贝塔分布等。<br>首先是对于指数分布的随机变量的生成，指数分布的cdf详见1.1 式。 由此，令$1-e^{-\lambda x} = u$, 则可得出$F^{-1}(u) = -ln((1-u)/\lambda)$。由于$U\sim \mathscr{U}[0,1]$, 容易得到$1-U\sim \mathscr{U}[0,1]$，为了书写简便，以下便用$1-U$ 代替 $U$, 即$X = -ln(U/\lambda)$是服从于指数分布的随机变量。具体的证明过程可以见文末。</p>
+<p>典型的就是一些指数的次数为1的指数分布族，如指数分布，卡方分布，伽马分布，贝塔分布等。<br>首先是对于指数分布的随机变量的生成，指数分布的cdf详见1.1 式。 由此，令$1-e^{-\lambda x} = u$, 则可得出$F^{-1}(u) = -ln((1-u)/\lambda)$。由于$U\sim \mathscr{U}[0,1]$, 容易得到$1-U\sim \mathscr{U}[0,1]$，为了书写简便，以下便用$1-U$ 代替 $U$, 即$X = -ln(U)/\lambda$是服从于指数分布的随机变量。具体的证明过程可以见文末。</p>
 <p>基于以下的事实：<br>·如果$X\sim Exp(\lambda)$, 则 $2X \sim Exp(\lambda/2)$;<br>·指数分布$Exp(\lambda)$等价于伽马分布$Ga(1,\lambda)$;<br>·伽马分布$Ga(\upsilon,\frac{1}{2})$等价于卡方分布$\chi^2_{2\upsilon}$;<br>·贝塔分布$\beta(a,b)$等价于$\frac{Ga(a,1)}{Ga(a,1)+Ga(b,1)}$.</p>
 <p>我们可以得出：<br>在计算机生成了一系列$\lbrace u_n\rbrace$后, 经过反转法变换，可以得到一系列$\lbrace x_n\rbrace$。<br>若其独立同分布于$Exp(1)$。由伽马分布的可加性：$X\sim Ga(a,\lambda),Y \sim Ga(b,\lambda)\Rightarrow X+Y \sim Ga(a+b,\lambda) $, 可以得到: </p>
 <p>·$2\sum_ {i=1}^{\upsilon}X_i\sim\chi^2_{2\upsilon}$;<br>·$\frac{1}{\beta}\sum_{i=1}^\alpha X_i \sim Ga(\alpha,\beta) $；<br>·$\frac{\sum_{i=1}^\alpha X_i }{\sum_{i=1}^{\alpha+\beta} X_i } \sim \beta(\alpha,\beta)$.</p>
