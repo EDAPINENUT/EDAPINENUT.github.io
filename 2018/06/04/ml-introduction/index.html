@@ -275,123 +275,24 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://birdtao.github.io/2018/06/04/ml-introduction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="伯德涛">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="伯德涛的博客">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">浅浅浅谈机器学习</h1>
-        
+	<h1 class="post-title" itemprop="name headline">浅浅浅谈机器学习</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T00:00:00+08:00">
-                2018-06-04
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Polularization/" itemprop="url" rel="index">
-                    <span itemprop="name">Polularization</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/06/04/ml-introduction/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/04/ml-introduction/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <h2 id="浅浅浅谈机器学习"><a href="#浅浅浅谈机器学习" class="headerlink" title="浅浅浅谈机器学习"></a>浅浅浅谈机器学习</h2><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。</p>
+      <div class="post-body han-init-context">
+        
+        
+          <h2 id="浅浅浅谈机器学习"><a href="#浅浅浅谈机器学习" class="headerlink" title="浅浅浅谈机器学习"></a>浅浅浅谈机器学习</h2><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。</p>
 <p><center>（憋了半天才憋出的冠冕堂皇的引文终于结束了，以下将是没那么正经的博文主要内容。)</center></p>
 <p>对于诸多非相关专业的童鞋来说，机器学习、人工智能等话题只是听说过，脑海中却没能形成相关的概念。本篇博文作为科普性文章，将会用十分浅显的语言和贴合生活的例子对机器学习中的一些概念与方法做出通俗易懂的解释。</p>
 <p>对于机器学习的初步理解，无非就是三个问题：什么是机器学习？机器怎么学习？为什么要让机器进行学习？（非常哲学地总结起来就是： What? How? Why?）</p>
@@ -461,65 +362,15 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在认真读罢本文后，相信很多童鞋都能对机器学习有了初步的认识。对于其中的一些概念，如：预测、分类、回归、监督学习、无监督学习、测试集、训练集、正确率、聚类等名词都能够有所了解。</p>
 <p>最后给爱独立思考的童鞋留一个小问题：在范例1中（即回归范例中），若让机器来进行回归，这算监督学习还是无监督学习？小林在定价时做的是机器学习过程中”三步走”的哪一步？小林有没有经历过训练的过程，有的话，训练集是什么呢？文中仅仅提到过正确率，那么分类问题和回归问题的正确率应该分别如何衡量呢？</p>
 
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
-          
-            <a href="/tags/科普/" rel="tag"># 科普</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/06/02/mc-inverse_method/" rel="next" title="蒙特卡洛抽样方法 -- Inverse Transform">
-                <i class="fa fa-chevron-left"></i> 蒙特卡洛抽样方法 -- Inverse Transform
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 

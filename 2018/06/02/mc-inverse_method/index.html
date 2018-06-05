@@ -276,123 +276,24 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://birdtao.github.io/2018/06/02/mc-inverse_method/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="伯德涛">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="伯德涛的博客">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">蒙特卡洛抽样方法 -- Inverse Transform</h1>
-        
+	<h1 class="post-title" itemprop="name headline">蒙特卡洛抽样方法 -- Inverse Transform</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-02T00:00:00+08:00">
-                2018-06-02
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Statistics/" itemprop="url" rel="index">
-                    <span itemprop="name">Statistics</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/06/02/mc-inverse_method/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/02/mc-inverse_method/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <h2 id="蒙特卡洛抽样方法之-Inverse-Transform"><a href="#蒙特卡洛抽样方法之-Inverse-Transform" class="headerlink" title="蒙特卡洛抽样方法之 Inverse Transform"></a>蒙特卡洛抽样方法之 Inverse Transform</h2><h3 id="一、计算机的随机数抽样过程："><a href="#一、计算机的随机数抽样过程：" class="headerlink" title="一、计算机的随机数抽样过程："></a>一、计算机的随机数抽样过程：</h3><p>计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbrace u_n\rbrace$这样的序列，其中：<br>\begin{align}<br>u_{k} = D(u_{k-1})<br>\end{align}</p>
+      <div class="post-body han-init-context">
+        
+        
+          <h2 id="蒙特卡洛抽样方法之-Inverse-Transform"><a href="#蒙特卡洛抽样方法之-Inverse-Transform" class="headerlink" title="蒙特卡洛抽样方法之 Inverse Transform"></a>蒙特卡洛抽样方法之 Inverse Transform</h2><h3 id="一、计算机的随机数抽样过程："><a href="#一、计算机的随机数抽样过程：" class="headerlink" title="一、计算机的随机数抽样过程："></a>一、计算机的随机数抽样过程：</h3><p>计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbrace u_n\rbrace$这样的序列，其中：<br>\begin{align}<br>u_{k} = D(u_{k-1})<br>\end{align}</p>
 <p>之后，通过一些统计检验，从而将产生（伪造）的随机数中通过检验的进行保留，并将其转换为[0,1]区间上的实数，随后计算机便认为所生成的随机数是服从$U[0,1]$分布的独立样本了。</p>
 <p>本篇博文将会介绍如何通过Inverse Transform方法，从而将已经得到的$\lbrace u_n\rbrace$样本序列转换为服从一些其他特定的分布的随机样本。<br><a id="more"></a></p>
 <h3 id="二、Inverse-Transform方法转换均匀样本"><a href="#二、Inverse-Transform方法转换均匀样本" class="headerlink" title="二、Inverse Transform方法转换均匀样本"></a>二、Inverse Transform方法转换均匀样本</h3><p>顾名思义，Inverse具有着反函数的意思，该方法实则是运用概率分布函数中的反函数来对随机数进行转换。</p>
@@ -420,65 +321,15 @@
 <p><strong>附</strong>：<br>1.$X\sim Exp(\lambda)$的证明：<br>$\begin{align*}<br>P(X\leq x) &amp;= P(-\frac{lnU}{\lambda}\leq x)\\<br>&amp;=P(U\geq e^{-\lambda x})\\<br>&amp;=1-e^{-\lambda x}<br>\end{align*}$<br>即为指数分布的cdf。</p>
 <p>2.以Inverse Transform 方法得到伽马分布的python代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#generate x with gamma(a,b)</span></span><br><span class="line">np.random.seed(<span class="number">1</span>)</span><br><span class="line">a = <span class="number">20</span> <span class="comment">#set value of a </span></span><br><span class="line">b = <span class="number">0.5</span> <span class="comment">#set value of b</span></span><br><span class="line">u = np.random.uniform(<span class="number">0</span>,<span class="number">1</span>,a) <span class="comment">#generate ui</span></span><br><span class="line">x = np.sum(-np.log(u))/b <span class="comment">#compute x</span></span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure></p>
 
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/抽样方法/" rel="tag"># 抽样方法</a>
-          
-            <a href="/tags/蒙特卡洛模拟/" rel="tag"># 蒙特卡洛模拟</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/04/ml-introduction/" rel="prev" title="浅浅浅谈机器学习">
-                浅浅浅谈机器学习 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
