@@ -273,24 +273,123 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://birdtao.github.io/2018/06/05/ml-introduction-answer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伯德涛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="伯德涛的博客">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">浅浅浅谈机器学习 -- 思考题答案公布</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body han-init-context">
         
         
-          <h2 id="浅浅浅谈机器学习-–-思考题答案"><a href="#浅浅浅谈机器学习-–-思考题答案" class="headerlink" title="浅浅浅谈机器学习 – 思考题答案"></a>浅浅浅谈机器学习 – 思考题答案</h2><p>昨天发布的科普博文受到的反响还算不错，为了加固萌新对概念的理解，在下特地选择了比较隐晦的例子从而出了思考题。只是最后的效果不尽人意，很多人都答错了，多数同学对于无监督学习和监督学习的概念还是有所混淆。</p>
+          <h1 class="post-title" itemprop="name headline">浅浅浅谈机器学习 -- 思考题答案公布</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T00:00:00+08:00">
+                2018-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Polularization/" itemprop="url" rel="index">
+                    <span itemprop="name">Polularization</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/05/ml-introduction-answer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/05/ml-introduction-answer/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="浅浅浅谈机器学习-–-思考题答案"><a href="#浅浅浅谈机器学习-–-思考题答案" class="headerlink" title="浅浅浅谈机器学习 – 思考题答案"></a>浅浅浅谈机器学习 – 思考题答案</h2><p>昨天发布的科普博文受到的反响还算不错，为了加固萌新对概念的理解，在下特地选择了比较隐晦的例子从而出了思考题。只是最后的效果不尽人意，很多人都答错了，多数同学对于无监督学习和监督学习的概念还是有所混淆。</p>
 <p>为了不误导大家，在此公布一下正确答案。想要知晓答案的同学可以阅读全文。</p>
 <a id="more"></a>
 <h3 id="Example-1-的解释"><a href="#Example-1-的解释" class="headerlink" title="Example 1 的解释"></a>Example 1 的解释</h3><p>在此，把卖瓜小林视作一台计算机的话。<br>首先，要知道卖瓜小林进行的是监督学习还是无监督学习，要理清小林三步走的过程分别是什么：小林现在在做什么，做过了什么。其从开始卖瓜到现在，无非就进行着几件事（不想看文字的同学可以看后面的图）：<br>　　①一开始卖瓜的时候是不知道市场定价的，因此只能根据市场的定价来进行对西瓜价格的制定。　这是最初的学习(训练）过程。<br>　　②学了一段时间后，小林也知道了如何给西瓜定价了。于是他就根据自己的定的价格对市场进行了预测，把自己预测的定价与市场价做对比，从而可以检验自己预测的正确率如何。然后再将用于测试的实际数据进行重复学习。　这是预测-&gt;测试-&gt;再学习　的过程。<br>　　③学了十年后，小林经验丰富，认为自己再也不用进行学习(训练)了。依靠自己的经验，他能给西瓜合理定价，并且拟定的价格与实际价格偏差很小。 这是最终小林的预测过程。</p>
@@ -301,15 +400,83 @@
 <p>事实上，<strong>所有的回归过程本质上都是监督学习</strong>。</p>
 <p>试想一元线性回归：利用给定的x，y从而根据他们的值画出一条满足均方误差最小的直线。 输入数据是已有的x，y – 给定了y，因此训练集是有标记的；画直线是根据给定数据进行学习的训练过程；利用划出的直线来预测没给出的x所对应的y值，是预测过程。</p>
 
-        
-      </div>
-      
-      
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    伯德涛
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://birdtao.github.io/2018/06/05/ml-introduction-answer/" title="浅浅浅谈机器学习 -- 思考题答案公布">http://birdtao.github.io/2018/06/05/ml-introduction-answer/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/科普/" rel="tag"># 科普</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/04/ml-introduction/" rel="next" title="浅浅浅谈机器学习">
+                <i class="fa fa-chevron-left"></i> 浅浅浅谈机器学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
