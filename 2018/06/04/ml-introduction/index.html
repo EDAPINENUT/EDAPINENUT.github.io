@@ -101,14 +101,16 @@
 <meta property="og:site_name" content="伯德涛的博客">
 <meta property="og:description" content="浅浅浅谈机器学习引言近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。 （憋了半天才憋出的冠冕堂皇的引文终于结束了，以下">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/melonpricing.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/regressionandclassification.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/babylearn.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/machinelearn.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/mlprocess.png">
-<meta property="og:updated_time" content="2018-06-05T06:03:42.268Z">
+<meta property="og:updated_time" content="2018-06-05T15:47:03.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅浅浅谈机器学习">
 <meta name="twitter:description" content="浅浅浅谈机器学习引言近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。 （憋了半天才憋出的冠冕堂皇的引文终于结束了，以下">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/babylearn.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/melonpricing.png">
 
 
 
@@ -436,9 +438,11 @@
 </tr>
 </tbody>
 </table>
+<p>第四个西瓜定价事例的流程示意如下：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/melonpricing.png" width="100%" height="100%"></p>
 <p>而事实上可能市场的西瓜定价与小林的定价是有所偏差的，比如市场均价为2.5元， 小林的定价为2.4元，小林会依据市场的定价做出适当的调整。这样的偏差可以视作<strong>误差</strong>，正确的输出结果的误差应该是可以接受的（比如在此例中误差仅仅为0.1元，与总定价2.4元相比显得微不足道，可以接受）。在回归问题中（甚至是所有与观测有关的问题）误差是常会遇到的名词，在此就不详细解释了。</p>
-<p>这就是一个典型的回归问题了，该类问题中所有可能的输出的结果组成的集合是连续的。[Tips :虽然钱是不连续的，人民币最小单位是一分，但是可以通过连续的输出然后四舍五入确定定价]。</p>
+<p>这就是一个典型的回归问题了，该类问题中所有可能的输出的结果组成的集合是<strong>连续的</strong>。[Tips :虽然钱是不连续的，人民币最小单位是一分，但是可以通过连续的输出然后四舍五入确定定价]。</p>
 <p><font color="red">由此总结：分类与回归任务都是根据一些输入数据而做输出结果的预测，但分类的结果组成集合是离散的，回归的结果组成的集合往往是连续的。比如年龄问题中，年龄（段）作为输出，分类问题中可能的结果组成的集合：{少年，青年，中年，老年} 是离散的；而回归中，从7岁到70岁这样的年龄区间就可以视为连续的。</font></p>
+<p>看罢小林卖瓜的例子后，同样的过程可以解释上述分类与回归问题的区别：<br><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/regressionandclassification.png" width="100%" height="100%"></p>
 <h3 id="What-amp-How"><a href="#What-amp-How" class="headerlink" title="What &amp; How?"></a>What &amp; How?</h3><p>解释完 Why 以后，接下来是回答第What &amp; How？这两个问题。以下举了一个简单的范例来让诸位更好地了解 What &amp; How 。</p>
 <p><strong>Example 2</strong><br>试想有一个大脑长期记忆储存功能已经发育成熟但是对性别这方面一无所知的婴儿，脑子就像干净的就像白纸一样，关于男生女生没有一条记录。（严谨起见，实际上这样的“白纸婴儿”是不一定存在的，但是这样的“白纸婴儿”还是很容易想象的。）在此可以把“白纸婴儿”类比为一无所知但是能够储存信息的计算机，通过“白纸婴儿”的例子可以更好地了解机器学习的概念：</p>
 <p>小林同学是这个“白纸婴儿”的老师，小林同学的教学任务是：教会“白纸婴儿”如何辨别一张照片上的人是男人还是女人。那么，小林同学是怎么做的呢？<br>　　①他先整理了100张照片，然后将这100张照片的背面都写上照片上的人像是男是女（这里暂且不考虑其他性别）。<br>　　②挑选出80张照片给“白纸婴儿”看，并且告诉他正确的性别。<br>　　③待“白纸婴儿”将所有80张照片认真看完（一遍或几遍）以后，把剩下的20张照片作为性别识别的小测试，看看“不再白的白纸婴儿”对于没见过的照片，识别正确率如何。<br>　　④如果测试正确率还能接受的话，未来就可以给他更多的照片，分配给他一个专门分辨照片上的人像性别的工作了。</p>
