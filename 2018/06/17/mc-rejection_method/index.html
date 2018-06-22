@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_method1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_methond2.png">
-<meta property="og:updated_time" content="2018-06-21T13:55:03.726Z">
+<meta property="og:updated_time" content="2018-06-22T06:21:36.894Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛抽样方法 -- Rejection Method">
 <meta name="twitter:description" content="蒙特卡洛抽样方法之 Rejection Method先前介绍过了蒙特卡洛抽样方法中最为基础简单的Inverse Transform 方法，同时，也介绍了其应用于应用以及局限性：累计密度函数的反函数不存在或者无法解析方法表示出时，该方法就不可用。然而，在多数情况下，cdf的反函数都是不存在的，这也就说明了该方法在大多数情况下都是受限的。本篇博文将会介绍另一种原理十分简单的抽样方法：Rejection">
@@ -418,7 +418,7 @@
 <p>首先，我们要先选一个g(x)，在这里我们选取最为简单的均匀分布，即$\mathscr{U}[-1,1]$，选择区间为[-1,1]的原因是其满足了条件①$supp\lbrace f \rbrace\subset supp\lbrace g\rbrace$ 。为了满足条件②，下一步是找到合适的M。我们可以得知，f(x)在x=0处取最大值，则：<br>\begin{align}<br>f(x)&amp;\leq \frac{exp(0)}{c}=\frac{1}{c}<br>\end{align}<br>又因为：<br>\begin{align}<br>g(x) = \frac{1}{2}<br>\end{align}<br>所以：<br>\begin{align}<br>f(x)\leq\frac{1}{c} \leq Mg(x)<br>\end{align}<br>可以算出，$M\geq\frac{2}{c}$; 可见，这里M可以取的范围很大，方便分析，姑且就取$\frac{3}{c}$（之后的<strong>算法效率分析</strong>中将会介绍M的取值是如何影响算法的效率的）。</p>
 <p>最后，按照算法计算后，得出的结果如图：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_method1.png" width="50%" height="50%"></p>
 <p>图是根据上述算法，模拟了1000次抽样后的样本点分布图。 图中，每一个点的横坐标为模拟的Y($Y\sim g(y)$)，纵坐标为模拟的U($U\sim\mathscr{U}[0,Mg(y)]$)，蓝色的线是分布函数$f(x)$，其中<strong>蓝色</strong>的点是<strong>被拒绝</strong>的点，<strong>绿色</strong>的点是<strong>被接受</strong>的点。可以看出，被接受的点都是在分布函数以下的，而被拒绝的点都是在分布函数以上的。这正是证实了(x,u)数对是满足$0\leq u \leq f(x)$的要求的。</p>
-<p>并且，$从直观的角度看的话，可以认为在x轴与Mg(x)函数所围成的面积中，抽取一些点。倘若这些点落入了x轴与f(x)函数所围成的面积中时，就接受；否则，就拒绝。$</p>
+<p>并且，<strong>从直观的角度看的话，可以认为在x轴与Mg(x)函数所围成的面积中，抽取一些点。倘若这些点落入了x轴与f(x)函数所围成的面积中时，就接受；否则，就拒绝。</strong></p>
 <h3 id="四、算法效率分析"><a href="#四、算法效率分析" class="headerlink" title="四、算法效率分析"></a>四、算法效率分析</h3><p>前文提到过，关于M的选择实际上决定了算法的抽取效率。那么，我们首先得定义何为抽取效率。</p>
 <p><strong>所谓的抽取效率，就是接受点的数目与总抽取次数的比值，也就是接受率。</strong></p>
 <p>在此，统计一下上一方法的实际接受效率，用接受的点数除以总模拟的次数（1000），接受概率为：0.569，即在拒绝方法下，利用这样的M与$g(x)$来抽取f(x)，其有大约0.569的几率能够抽取成功。</p>
