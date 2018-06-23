@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_method1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_methond2.png">
-<meta property="og:updated_time" content="2018-06-23T08:33:09.612Z">
+<meta property="og:updated_time" content="2018-06-23T09:47:10.750Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛抽样方法 -- Rejection Method">
 <meta name="twitter:description" content="蒙特卡洛抽样方法之 Rejection Method先前介绍过了蒙特卡洛抽样方法中最为基础简单的Inverse Transform 方法，同时，也介绍了其应用于应用以及局限性：累计密度函数的反函数不存在或者无法解析方法表示出时，该方法就不可用。然而，在多数情况下，cdf的反函数都是不存在的，这也就说明了该方法在大多数情况下都是受限的。本篇博文将会介绍另一种原理十分简单的抽样方法：Rejection">
@@ -259,7 +259,7 @@
 
 <script type="text/javascript">
     window.onblur = function () {
-        document.title = "三流材料物理专业搬砖工立志做一名一流数据科学家~";
+        document.title = "三流材料物理搬砖工志做一流数据科学家~";
     };
     
 </script>
@@ -411,12 +411,12 @@
 <p> 将上述的算法少许修改，令$U\sim\mathscr{U}[0,1]$(方便计算机模拟，见上一章<strong>计算机抽取随机数原理</strong>部分)，即将$U$重新定义为原先的$\frac{U}{Mg(x)}$，那么判定接收的范围也要做相应修改，即：$U\leq f(x)$ 做等价变换，得到 $\frac{U}{Mg(x)}\leq \frac{f(x)}{Mg(x)}$，上述转换后的算法就是最为常见的拒绝方法（Rejection Method）了。</p>
 <p> 由此，可以提出便于计算机生成随机数的等价算法：</p>
 <p> <strong>Algorithm</strong> - Rejection Method 2 -<br> 　　step ①: 生成$Y\sim g$, $U \sim\mathscr{U}[0,1]$ ；<br> 　　step ②：如果$u \leq \frac{f(y)}{Mg(y)}$的话，接收Y，即$X=Y$；否则，拒绝Y；<br> 　　step ③：重复 步骤①与②，直到抽到的样符合要求的本数足够为止。<br> 而事实上，算法2相较于算法1来说，因为其便于模拟，所以其应用更为广泛，这也是多数教科书介绍拒绝方法时多用算法2来描述的原因。</p>
-<h3 id="三、算法范例"><a href="#三、算法范例" class="headerlink" title="三、算法范例"></a>三、算法范例</h3><p> 以上的解释多较为理论化的解释，（本人第一次学习拒绝方法的时候，只知道算法，却对其没有较为深刻的理解，结合诸多例子与解释后，才对其理解较为深刻），所以结合以下实例后，相信同学们对该方法会有更为具体深刻的理解。</p>
-<p> [Tip ２:以下事例中我们姑且都使用算法2来对拒绝方法进行描述，因为其能够更为形象地阐明拒绝方法的本质。 ]</p>
+<h3 id="三、算法范例"><a href="#三、算法范例" class="headerlink" title="三、算法范例"></a>三、算法范例</h3><p> 以上的解释多较为理论化的解释，（本人第一次学习拒绝方法的时候，只知道算法，却对其没有较为深刻的理解，结合诸多例子与解释后，才对其理解较为深刻。）所以结合以下实例后，相信同学们对该方法会有更为具体深刻的理解。</p>
+<p> [Tip２:以下事例中我们姑且都使用算法2来对拒绝方法进行描述，因为其能够更为形象地阐明拒绝方法的本质。 ]</p>
 <p><strong>  Example 1 </strong><br> 首先，我们在此选择抽取的样本为”截断标准正态分布”(只在[-1,1]上存在概率密度，在其他区间概率密度为0)，其分布函数为:<br> \begin{align}<br>f(x)&amp;=<br>\frac{exp(x^2/2)}{\int_{-1}^{1}exp(x^2/2)dx} &amp;-1\leq x \leq1\\<br>f(x)&amp;=0\quad\quad\quad&amp;     else<br>\end{align}</p>
-<p>[Tip　3: 众所周知，这个归一化常数$c=\int_{-1}^{1}exp(x^2/2)dx$是非常难算的，但是拒绝方法的强大之处就是，对于未归一化的概率密度函数，仍然可以抽样！ 因此这里的$\int_{-1}^{1}exp(x^2/2)dx$ 实则无关紧要，这在后面的<strong>算法适用性分析</strong>中有介绍。]</p>
+<p>[Tip 3: 众所周知，这个归一化常数$c=\int_{-1}^{1}exp(x^2/2)dx$是非常难算的，但是拒绝方法的强大之处就是，对于未归一化的概率密度函数，仍然可以抽样！ 因此这里的$\int_{-1}^{1}exp(x^2/2)dx$ 实则无关紧要，这在后面的<strong>算法适用性分析</strong>中有介绍。]</p>
 <p>首先，我们要先选一个g(x)，在这里我们选取最为简单的均匀分布，即$\mathscr{U}[-1,1]$，选择区间为[-1,1]的原因是其满足了条件①$supp\lbrace f \rbrace\subset supp\lbrace g\rbrace$ 。为了满足条件②，下一步是找到合适的M。我们可以得知，f(x)在x=0处取最大值，则：<br>\begin{align}<br>f(x)&amp;\leq \frac{exp(0)}{c}=\frac{1}{c}<br>\end{align}<br>又因为：<br>\begin{align}<br>g(x) = \frac{1}{2}<br>\end{align}<br>所以：<br>\begin{align}<br>f(x)\leq\frac{1}{c} \leq Mg(x)<br>\end{align}<br>可以算出，$M\geq\frac{2}{c}$; 可见，这里M可以取的范围很大，方便分析，姑且就取$\frac{3}{c}$（之后的<strong>算法效率分析</strong>中将会介绍M的取值是如何影响算法的效率的）。</p>
-<p>最后，按照算法计算后，得出的结果如图：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_method1.png" width="50%" height="50%"></p>
+<p>最后，按照算法计算后，得出的结果如图：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_method1.png" width="70%" height="70%"></p>
 <p>图是根据上述算法，模拟了1000次抽样后的样本点分布图。 图中，每一个点的横坐标为模拟的Y($Y\sim g(y)$)，纵坐标为模拟的U($U\sim\mathscr{U}[0,Mg(y)]$)，蓝色的线是分布函数$f(x)$，其中<strong>蓝色</strong>的点是<strong>被拒绝</strong>的点，<strong>绿色</strong>的点是<strong>被接受</strong>的点。可以看出，被接受的点都是在分布函数以下的，而被拒绝的点都是在分布函数以上的。这正是证实了(x,u)数对是满足$0\leq u \leq f(x)$的要求的。</p>
 <p>并且，<strong>从直观的角度看的话，可以认为在x轴与Mg(x)函数所围成的面积中，抽取一些点。倘若这些点落入了x轴与f(x)函数所围成的面积中时，就接受；否则，就拒绝。</strong></p>
 <h3 id="四、算法效率分析"><a href="#四、算法效率分析" class="headerlink" title="四、算法效率分析"></a>四、算法效率分析</h3><p>前文提到过，关于M的选择实际上决定了算法的抽取效率。那么，我们首先得定义何为抽取效率。</p>
@@ -425,7 +425,7 @@
 <p>那么，是否有方法让接受概率变大呢？ 有心的同学可能已经想到了：<strong>按照上述范例，接受的规则是：在一个大的面积中随机抽取样本，样本若是在其中的一块特定的较小的面积中，那就接受；反之，则拒绝。那么我只要使得小面积所占大面积的比重更大，就可以使得接受的几率更大，从而更有效地抽取一系列的样本了。</strong></p>
 <p>事实上，直观的原理就是这样。而以上述例子而言，由于均匀分布（大面积）是$\mathscr{U}[0,Mg(x)]$，若M减小，则正态分布所覆盖的面积与均匀分布所覆盖的面积的比例就会增大。由此就可以直观地得出，M与算法的接受概率息息相关。其关系如下：<br>\begin{align}<br>P(U&lt;=f(x)|X = x)&amp;=\int_0^{f(x)}\frac{1}{Mg(x)}dx\\<br>&amp;=f(x)/Mg(x) \\<br>&amp;\propto \frac{1}{M}\\<br>(U \sim \mathscr  {U}[0,Mg(x)])<br>\end{align}</p>
 <p><font color="red">所以M越大，则接受概率越小。但是M又要满足$M\geq f(x)/g(x)$, 因此M取其下确界是最优的。</font></p>
-<p><strong> Example 2 </strong><br>下面我们试试利用上述的f(x)与g(x)，将M取至其下界$\frac{2}{c}$，得到的抽样点图如下：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_methond2.png" width="50%" height="50%"><br>统计的接受概率为<strong>0.866</strong>，相对于$M=\frac{3}{c}$时<strong>0.569</strong>的接收概率，其接受概率大大提升。 </p>
+<p><strong> Example 2 </strong><br>下面我们试试利用上述的f(x)与g(x)，将M取至其下界$\frac{2}{c}$，得到的抽样点图如下：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_methond2.png" width="70%" height="70%"><br>统计的接受概率为<strong>0.866</strong>，相对于$M=\frac{3}{c}$时<strong>0.569</strong>的接收概率，其接受概率大大提升。 </p>
 <p>上面我们主要叙述了，改变M可以增加算法的计算效率；此外，<strong>g(x)的选择也是可以改进算法的计算效率的</strong>。可以想象，当g(x)越是逼近f(x)时，即g(x)与f(x)的函数图像越是相似，则在同样接近下界的M的情况下，上例图中蓝色区域与绿色区域相比面积会减小，因此抽取到的点更容易落在绿色的区域中，由此接受概率大大地增加了。</p>
 <h3 id="五、算法适用性分析"><a href="#五、算法适用性分析" class="headerlink" title="五、算法适用性分析"></a>五、算法适用性分析</h3><p>经过之前的算法实例分析，相信同学们对于拒绝方法都有了很好的理解了。在此我们分析一下该算法的适用范围如何。</p>
 <p>首先，该算法相比之前的<a href="https://bird-tao.github.io/2018/06/02/mc-inverse_method/">Inverse Transform</a>方法相比，适用性大很多。在不考虑算法接受概率的情况下，只要给出有界的无法直接抽样的概率密度函数f(x)（$f(x)\leq C$），都可以寻找到一个M与能够抽样的g(x)，使得$f(x)\leq Mg(x)$，就可以对f(x)这样的概率密度函数进行抽样。</p>
