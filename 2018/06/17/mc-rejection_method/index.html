@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_method1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/reject_methond2.png">
-<meta property="og:updated_time" content="2018-06-23T08:06:39.821Z">
+<meta property="og:updated_time" content="2018-06-23T08:33:09.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛抽样方法 -- Rejection Method">
 <meta name="twitter:description" content="蒙特卡洛抽样方法之 Rejection Method先前介绍过了蒙特卡洛抽样方法中最为基础简单的Inverse Transform 方法，同时，也介绍了其应用于应用以及局限性：累计密度函数的反函数不存在或者无法解析方法表示出时，该方法就不可用。然而，在多数情况下，cdf的反函数都是不存在的，这也就说明了该方法在大多数情况下都是受限的。本篇博文将会介绍另一种原理十分简单的抽样方法：Rejection">
@@ -395,7 +395,7 @@
         <h2 id="蒙特卡洛抽样方法之-Rejection-Method"><a href="#蒙特卡洛抽样方法之-Rejection-Method" class="headerlink" title="蒙特卡洛抽样方法之 Rejection Method"></a>蒙特卡洛抽样方法之 Rejection Method</h2><p>先前介绍过了蒙特卡洛抽样方法中最为基础简单的<a href="https://bird-tao.github.io/2018/06/02/mc-inverse_method/">Inverse Transform</a> 方法，同时，也介绍了其应用于应用以及局限性：<strong>累计密度函数的反函数不存在或者无法解析方法表示出时，该方法就不可用。</strong>然而，在多数情况下，cdf的反函数都是不存在的，这也就说明了该方法在大多数情况下都是受限的。本篇博文将会介绍另一种原理十分简单的抽样方法：Rejection Method(拒绝方法)，与先前的 Inverse Transform方法不同的是，该方法的抽样效率不如前者，但是理论上对于任意的分布都可以进行抽样。</p>
 <p>因此，该方法是适用性更广的抽样方法。</p>
 <a id="more"></a>
-<h3 id="一、基本原理介绍"><a href="#一、基本原理介绍" class="headerlink" title="一、基本原理介绍"></a>一、基本原理介绍</h3><p>整个拒绝方法所基于的原理十分简单，对于任意一个概率密度函数$f(x)$,其都可以写成以下形式：<br>\begin{align}<br>f(x) = \int^{f(x)}_0 1\cdot du<br>\end{align}<br>即可以将U视作一个$[0,f(x)]$上的均匀分布，从而<br> \begin{align}<br> f_U(u) &amp;= \frac{1}{f(x)}\\<br> f_{X,U}(x,u) &amp;= f_X(x)f_U(u)\\<br>&amp;= f(x)*\frac{1}{f(x)}\\<br>&amp;= 1<br>\end{align}<br>所以可以将 1 视作$f_{X,U}(x,u)$, $f_{X}(x) = \int^{f(x)}_0 f_{X,U}(x,u) du = f(x) $。由此，生成 $X\sim f(x)$ 与生成$(X,U)\sim \mathcal{U}{(x,u):0&lt;u&lt;f(x)}$是等价的。那么生成$X\sim f(x)$的问题就可以等价地转换为，生成$(X,U)\sim \mathcal{U}{(x,u):0&lt;u&lt;f(x)}$的问题了。</p>
+<h3 id="一、基本原理介绍"><a href="#一、基本原理介绍" class="headerlink" title="一、基本原理介绍"></a>一、基本原理介绍</h3><p>整个拒绝方法所基于的原理十分简单，对于任意一个概率密度函数$f(x)$,其都可以写成以下形式：<br>\begin{align}<br>f(x) = \int^{f(x)}_0 1\cdot du<br>\end{align}<br>如果将U视作一个$[0,f(x)]$上的均匀分布，则<br> \begin{align}<br> f_U(u) &amp;= \frac{1}{f(x)}\\<br> f_{X,U}(x,u) &amp;= f_X(x)f_U(u)\\<br>&amp;= f(x)*\frac{1}{f(x)}\\<br>&amp;= 1<br>\end{align}<br>所以可以将 1 视作$f_{X,U}(x,u)$, $f_{X}(x) = \int^{f(x)}_0 f_{X,U}(x,u) du = f(x) $。由此，生成 $X\sim f(x)$ 与生成$(X,U)\sim \mathcal{U}{(x,u):0&lt;u&lt;f(x)}$是等价的。那么生成$X\sim f(x)$的问题就可以等价地转换为，生成$(X,U)\sim \mathcal{U}{(x,u):0&lt;u&lt;f(x)}$的问题了。</p>
 <h3 id="二、拒绝方法的提出"><a href="#二、拒绝方法的提出" class="headerlink" title="二、拒绝方法的提出"></a>二、拒绝方法的提出</h3><p>那么有些人会问了，生成$(X,U)$这样的数对有什么用呢，我还是要先生成X，这不是多此一举吗。实则不然，通过这个思想，我们就可以不用直接生成X了，换一种角度考虑，可以一次同时生成一个X和U，如果$X=x$和$U=u$是符合$0\leq u \leq f(x)$的条件的话，那么我们认为生成的X和U是符合要求分布的，就将生成的X接受。</p>
 <p>此外，基于以下定理：</p>
 <ul>
