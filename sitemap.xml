@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://bird-tao.github.io/2018/06/17/mc-rejection_method/</loc>
+    <loc>http://bird-tao.github.io/2018/06/17/mc-rejection_sampling/</loc>
     
-    <lastmod>2018-07-04T03:40:03.999Z</lastmod>
+    <lastmod>2018-09-02T03:09:02.903Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://bird-tao.github.io/2018/06/02/mc-inverse_transform/</loc>
+    
+    <lastmod>2018-09-02T03:06:39.337Z</lastmod>
     
   </url>
   
@@ -19,13 +26,6 @@
     <loc>http://bird-tao.github.io/2018/06/05/ml-introduction-answer/</loc>
     
     <lastmod>2018-06-05T19:20:28.245Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://bird-tao.github.io/2018/06/02/mc-inverse_method/</loc>
-    
-    <lastmod>2018-06-04T15:16:31.055Z</lastmod>
     
   </url>
   

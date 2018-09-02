@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://bird-tao.github.io/2018/06/17/mc-rejection_method/">
+    <link itemprop="mainEntityOfPage" href="http://bird-tao.github.io/2018/06/17/mc-rejection_sampling/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="伯德涛">
@@ -300,7 +300,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/17/mc-rejection_method/" itemprop="url">蒙特卡洛抽样方法 -- Rejection Method</a></h1>
+                <a class="post-title-link" href="/2018/06/17/mc-rejection_sampling/" itemprop="url">蒙特卡洛抽样方法 -- Rejection Sampling</a></h1>
         
 
         <div class="post-meta">
@@ -353,8 +353,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/17/mc-rejection_method/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/17/mc-rejection_method/" itemprop="commentCount"></span>
+                <a href="/2018/06/17/mc-rejection_sampling/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/17/mc-rejection_sampling/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -383,11 +383,11 @@
 
       
         
-          <h2 id="蒙特卡洛抽样方法之-Rejection-Method"><a href="#蒙特卡洛抽样方法之-Rejection-Method" class="headerlink" title="蒙特卡洛抽样方法之 Rejection Method"></a>蒙特卡洛抽样方法之 Rejection Method</h2><p>先前介绍过了蒙特卡洛抽样方法中最为基础简单的<a href="https://bird-tao.github.io/2018/06/02/mc-inverse_method/">Inverse Transform</a> 方法，同时，也介绍了其应用于应用以及局限性：<strong>累计密度函数的反函数不存在或者无法解析方法表示出时，该方法就不可用。</strong>然而，在多数情况下，cdf的反函数都是不存在的，这也就说明了该方法在大多数情况下都是受限的。本篇博文将会介绍另一种原理十分简单的抽样方法：Rejection Method(拒绝方法)，与先前的 Inverse Transform方法不同的是，该方法的抽样效率不如前者，但是理论上对于任意的分布都可以进行抽样。</p>
+          <h2 id="蒙特卡洛抽样方法之-Rejection-Sampling"><a href="#蒙特卡洛抽样方法之-Rejection-Sampling" class="headerlink" title="蒙特卡洛抽样方法之 Rejection Sampling"></a>蒙特卡洛抽样方法之 Rejection Sampling</h2><p>先前介绍过了蒙特卡洛抽样方法中最为基础简单的<a href="https://bird-tao.github.io/2018/06/02/mc-inverse_transform/">Inverse Transform</a> 方法，同时，也介绍了其应用于应用以及局限性：<strong>累计密度函数的反函数不存在或者无法解析方法表示出时，该方法就不可用。</strong>然而，在多数情况下，cdf的反函数都是不存在的，这也就说明了该方法在大多数情况下都是受限的。本篇博文将会介绍另一种原理十分简单的抽样方法：Rejection Method(拒绝方法)，与先前的 Inverse Transform方法不同的是，该方法的抽样效率不如前者，但是理论上对于任意的分布都可以进行抽样。</p>
 <p>因此，该方法是适用性更广的抽样方法。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/17/mc-rejection_method/#more" rel="contents">
+            <a class="btn" href="/2018/06/17/mc-rejection_sampling/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -754,7 +754,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://bird-tao.github.io/2018/06/02/mc-inverse_method/">
+    <link itemprop="mainEntityOfPage" href="http://bird-tao.github.io/2018/06/02/mc-inverse_transform/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="伯德涛">
@@ -773,7 +773,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/02/mc-inverse_method/" itemprop="url">蒙特卡洛抽样方法 -- Inverse Transform</a></h1>
+                <a class="post-title-link" href="/2018/06/02/mc-inverse_transform/" itemprop="url">蒙特卡洛抽样方法 -- Inverse Transform Sampling</a></h1>
         
 
         <div class="post-meta">
@@ -826,8 +826,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/02/mc-inverse_method/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/02/mc-inverse_method/" itemprop="commentCount"></span>
+                <a href="/2018/06/02/mc-inverse_transform/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/02/mc-inverse_transform/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -856,12 +856,12 @@
 
       
         
-          <h2 id="蒙特卡洛抽样方法之-Inverse-Transform"><a href="#蒙特卡洛抽样方法之-Inverse-Transform" class="headerlink" title="蒙特卡洛抽样方法之 Inverse Transform"></a>蒙特卡洛抽样方法之 Inverse Transform</h2><h3 id="一、计算机的随机数抽样过程："><a href="#一、计算机的随机数抽样过程：" class="headerlink" title="一、计算机的随机数抽样过程："></a>一、计算机的随机数抽样过程：</h3><p>计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbrace u_n\rbrace$这样的序列，其中：<br>\begin{align}<br>u_{k} = D(u_{k-1})<br>\end{align}</p>
+          <h2 id="蒙特卡洛抽样方法之-Inverse-Transform-Sampling"><a href="#蒙特卡洛抽样方法之-Inverse-Transform-Sampling" class="headerlink" title="蒙特卡洛抽样方法之 Inverse Transform Sampling"></a>蒙特卡洛抽样方法之 Inverse Transform Sampling</h2><h3 id="一、计算机的随机数抽样过程："><a href="#一、计算机的随机数抽样过程：" class="headerlink" title="一、计算机的随机数抽样过程："></a>一、计算机的随机数抽样过程：</h3><p>计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行迭代，生成$\lbrace u_n\rbrace$这样的序列，其中：<br>\begin{align}<br>u_{k} = D(u_{k-1})<br>\end{align}</p>
 <p>之后，通过一些统计检验，从而将产生（伪造）的随机数中通过检验的进行保留，并将其转换为[0,1]区间上的实数，随后计算机便认为所生成的随机数是服从$U[0,1]$分布的独立样本了。</p>
 <p>本篇博文将会介绍如何通过Inverse Transform方法，从而将已经得到的$\lbrace u_n\rbrace$样本序列转换为服从一些其他特定的分布的随机样本。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/02/mc-inverse_method/#more" rel="contents">
+            <a class="btn" href="/2018/06/02/mc-inverse_transform/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
