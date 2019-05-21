@@ -107,7 +107,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_cdf.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/cdf_seve_uni.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/pdf_seve_uni.png">
-<meta property="og:updated_time" content="2018-09-02T03:06:39.337Z">
+<meta property="og:updated_time" content="2019-05-21T02:46:58.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛抽样方法 -- Inverse Transform Sampling">
 <meta name="twitter:description" content="蒙特卡洛抽样方法之 Inverse Transform Sampling一、计算机的随机数抽样过程：计算机抽样所生成的随机数其实并非是真正的随机，而是$\textbf{伪随机（pseudo-random)}$,其原理简单地来说，是从一个随机种子$u_0$(random seed 也就是编程时常常用到的random_seed()方法）出发，进行一种确定的迭代方法$D$（如线性同余法、梅森旋转法）进行">
@@ -398,19 +398,19 @@
 <p>之后，通过一些统计检验，从而将产生（伪造）的随机数中通过检验的进行保留，并将其转换为[0,1]区间上的实数，随后计算机便认为所生成的随机数是服从$U[0,1]$分布的独立样本了。</p>
 <p>本篇博文将会介绍如何通过Inverse Transform方法，从而将已经得到的$\lbrace u_n\rbrace$样本序列转换为服从一些其他特定的分布的随机样本。<br><a id="more"></a></p>
 <h3 id="二、Inverse-Transform-抽样方法转换均匀样本"><a href="#二、Inverse-Transform-抽样方法转换均匀样本" class="headerlink" title="二、Inverse Transform 抽样方法转换均匀样本"></a>二、Inverse Transform 抽样方法转换均匀样本</h3><p>顾名思义，Inverse具有着反函数的意思，该方法实则是运用概率分布函数中的反函数来对随机数进行转换。</p>
-<h5 id="1-累计密度函数的反函数"><a href="#1-累计密度函数的反函数" class="headerlink" title="1.累计密度函数的反函数"></a>1.累计密度函数的反函数</h5><p>首先，定义累计密度函数(cdf)的反函数[Tips 1:cdf是概率密度函数(pdf)在$(-\infty,x)$区间上的积分,定义为$F_X(x) = P(X\leq x)$, $P$表示概率probability]。</p>
-<p><strong>Def:</strong> - Inverse of F -<br>对于一个定义在$\mathbb{R}$（非严格）单调递增的累计概率密度函数$F$ [Tips 2：cdf都满足这样的条件]，其反函数$F^{-1}$定义为：<br>\begin{align*}<br>F^{-1}(u)= inf\lbrace x:F(x)\geq u \rbrace<br>\end{align*}<br>其中，$inf$表示下界。直观上来描述，就是其累计概率密度函数其累计值刚达到给定概率值$u$时所对应的$x$。 以下拿$\lambda=1$的指数分布函数举例，其pdf与cdf如下 (式1.1)：<br>\begin{align*}<br>f(x) &amp;= \lambda e^{-\lambda x}\cdot\mathbb{I_{x\geq0}}\\<br>F(x) &amp;= (1-e^{-\lambda x})\cdot \mathbb{I_{x\geq0}}<br>\end{align*}<br>此处取$u=0.8$，即累计概率为0.8时对应的x值为$-ln0.2$，示意图如下：<div align="center"></div></p>
+<h5 id="1-累计密度函数的反函数"><a href="#1-累计密度函数的反函数" class="headerlink" title="1.累计密度函数的反函数"></a>1.累计密度函数的反函数</h5><p>首先，定义累计分布函数(cdf)的反函数[Tips 1:cdf是概率密度函数(pdf)在$(-\infty,x)$区间上的积分,定义为$F_X(x) = P(X\leq x)$, $P$表示概率probability]。</p>
+<p><strong>Def:</strong> - Inverse of F -<br>对于一个定义在$\mathbb{R}$（非严格）单调递增的累计概率密度函数$F$ [Tips 2：cdf都满足这样的条件]，其反函数$F^{-1}$定义为：<br>\begin{align*}<br>F^{-1}(u)= inf\lbrace x:F(x)\geq u \rbrace<br>\end{align*}<br>其中，$inf$表示下界。直观上来描述，就是其累计分布密度函数其累计值刚达到给定概率值$u$时所对应的$x$。 以下拿$\lambda=1$的指数分布函数举例，其pdf与cdf如下 (式1.1)：<br>\begin{align*}<br>f(x) &amp;= \lambda e^{-\lambda x}\cdot\mathbb{I_{x\geq0}}\\<br>F(x) &amp;= (1-e^{-\lambda x})\cdot \mathbb{I_{x\geq0}}<br>\end{align*}<br>此处取$u=0.8$，即累计分布函数值为0.8时对应的x值为$-ln0.2$，示意图如下：<div align="center"></div></p>
 <p><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_pdf_Fotor.png" width="50%" height="70%"><br><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/exp_inv_cdf.png" width="50%" height="70%"></p>
 <p>  <br> $\textit{对于Tip 2的补充}$：实际上，由于pdf皆是大于等于0的，而cdf是pdf由$-\infty$积分至指定值$x$的函数，因此cdf是（非严格）单调递增的函数。</p>
 <p>  上述范例中的0.8表示的是服从 $exp(1)$ 的指数分布的随机变量出现在$[0,-ln0.2]$区间内的概率为0.8 -- 即pdf在$[0,-ln0.2]$的区间上与x轴围成的面积为0.8；cdf作为pdf的积分，值达到$0.8$时对应的x为$-ln0.2$。</p>
 <p>  回顾一下反函数的知识，反函数的存在是要求函数$f$这样的映射需要在函数的<strong>定义域与值域上一一对应</strong>，即$f$是一个<strong>双射</strong>。而对于cdf这样非严格单调递增的函数，由于可能出现一段水平线（试想在其中有一段pdf皆为0），此时就不能直接定义反函数，因此要用$inf$下界表示，即在cdf出现水平情况时，$x$取该水OK 平线上的左端点。<br>  以下拿一种奇特的均匀分布来举例，该随机变量只能出现在$[0,2]$以及$[3,5]$区间上，而在$[2,3]$区间上则不存在概率密度，其pdf与cdf的示意图如下图：</p>
 <p>  <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/cdf_seve_uni.png" width="50%" height="70%"><br><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/pdf_seve_uni.png" width="50%" height="70%"><br>在$[2,3]$区间上pdf为0，因此在该区间上cdf出现了一平台，而$F^{-1}(0.5)$的值取$x$在这区间上的下界，便是$F^{-1}(0.5) = 2$.</p>
-<p>此时，相信读者对于累计密度函数的反函数已经有了比较好的认识。</p>
+<p>此时，相信读者对于累计分布函数的反函数已经有了比较好的认识。</p>
 <h5 id="2-Inverse-Transform-基于的原理"><a href="#2-Inverse-Transform-基于的原理" class="headerlink" title="2.Inverse Transform 基于的原理"></a>2.Inverse Transform 基于的原理</h5><p>整个Inverse Transform（以下称为反转法）皆基于一个十分简单的定理，定理如下：</p>
 <p><strong>Theorem</strong><br>如果随机变量$U \sim \mathscr{U}[0,1]$, 那么随机变量 $X = F^{-1}(U)$的累计密度函数为$F$。</p>
 <p>该原理证明十分简单，过程如下：<br>$\begin{align*}<br>P(F^{-1}(U)\leq x) = P(U \leq F(x)) = F(x)<br>\end{align*}$</p>
 <p>由此，我们只要知道随机变量$X$服从的分布函数的cdf以及其cdf的反函数，就可以通过计算机所生成的$[0,1]$上的均匀分布从而生成所需要的分布了。算法如下：</p>
-<p><strong>Algorithm:</strong><br>已知随机变量X服从的累计密度函数$F$以及其累计密度函数的反函数$F^{-1}$，则进行以下操作：<br>　　Step 1: 生成随机变量$U \sim \mathscr{U}[0,1]$。<br>　　Step 2: 令$X = F^{-1}(U)$, 则计算得出的X即为目标分布的随机变量。</p>
+<p><strong>Algorithm:</strong><br>已知随机变量X服从的累计分布函数$F$以及其累计分布函数的反函数$F^{-1}$，则进行以下操作：<br>　　Step 1: 生成随机变量$U \sim \mathscr{U}[0,1]$。<br>　　Step 2: 令$X = F^{-1}(U)$, 则计算得出的X即为目标分布的随机变量。</p>
 <p>看罢此算法后，肯定有人不解，那么按照这样的算法，不是任意分布的随机变量都可以由反转法得到了吗？<br>其实不然，该算法的关键难点便是$F$与$F^{-1}$的解析形式。多数情况下，累计分布函数的解析形式都是无法写出的，更别说其反函数形式了。典型的例子就是正态分布，其cdf始终无法用解析形式表达，因此此方法的适用性实则十分有限。</p>
 <h5 id="3-Inverse-Transform-抽样方法的应用"><a href="#3-Inverse-Transform-抽样方法的应用" class="headerlink" title="3.Inverse Transform 抽样方法的应用"></a>3.Inverse Transform 抽样方法的应用</h5><p>反转法虽然适用范围很一般，但是实际上还是有许多随机变量的生成还是依靠着该方法的。该方法的效率高[Tips 3: 计算时间复杂度低，且对于所有生成的随机变量都会进行接收]，占内存少等优点使得该方法仍然被运用在一些能够适用的场景。</p>
 <p>典型的就是一些指数的次数为1的指数分布族，如指数分布，卡方分布，伽马分布，贝塔分布等。<br>首先是对于指数分布的随机变量的生成，指数分布的cdf详见1.1 式。 由此，令$1-e^{-\lambda x} = u$, 则可得出$F^{-1}(u) = -ln((1-u)/\lambda)$。由于$U\sim \mathscr{U}[0,1]$, 容易得到$1-U\sim \mathscr{U}[0,1]$，为了书写简便，以下便用$1-U$ 代替 $U$, 即$X = -ln(U)/\lambda$是服从于指数分布的随机变量。具体的证明过程可以见文末。</p>
@@ -655,7 +655,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
