@@ -84,7 +84,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="深度学习,生成模型,GAN,VAE,NF," />
 
 
 
@@ -95,13 +95,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="伯德涛的博客">
-<meta property="og:url" content="http://bird-tao.github.io/tags/生成模型/index.html">
+<meta name="description" content="引言本篇会对于上一篇 “隐含双射自编码器”读书笔记中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像的DCGAN的卷积网络结构。">
+<meta name="keywords" content="深度学习,生成模型,GAN,VAE,NF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“隐含双射自编码器”编程实现">
+<meta property="og:url" content="http://bird-tao.github.io/2020/04/17/LIA_implementation/index.html">
 <meta property="og:site_name" content="伯德涛的博客">
+<meta property="og:description" content="引言本篇会对于上一篇 “隐含双射自编码器”读书笔记中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像的DCGAN的卷积网络结构。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-04-17T09:35:52.719Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="伯德涛的博客">
+<meta name="twitter:title" content="“隐含双射自编码器”编程实现">
+<meta name="twitter:description" content="引言本篇会对于上一篇 “隐含双射自编码器”读书笔记中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像的DCGAN的卷积网络结构。">
 
 
 
@@ -131,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://bird-tao.github.io/tags/生成模型/"/>
+  <link rel="canonical" href="http://bird-tao.github.io/2020/04/17/LIA_implementation/"/>
 
 
 
 
 
-  <title>标签: 生成模型 | 伯德涛的博客</title>
+  <title>“隐含双射自编码器”编程实现 | 伯德涛的博客</title>
   
 
 
@@ -156,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -266,82 +271,211 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>生成模型<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bird-tao.github.io/2020/04/17/LIA_implementation/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伯德涛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="伯德涛的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/04/17/LIA_implementation/" itemprop="url">
-              
-                <span itemprop="name">“隐含双射自编码器”编程实现</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">“隐含双射自编码器”编程实现</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-04-17T00:00:00+08:00"
-              content="2020-04-17" >
-          04-17
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-17T00:00:00+08:00">
+                2020-04-17
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning-Generative-Models/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning (Generative Models)</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/17/LIA_implementation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/17/LIA_implementation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/04/15/LIA_report/" itemprop="url">
-              
-                <span itemprop="name">“隐含双射自编码器”读书笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-04-15T00:00:00+08:00"
-              content="2020-04-15" >
-          04-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本篇会对于上一篇 <a href="https://bird-tao.github.io/2020/04/15/LIA_report/#more">“隐含双射自编码器”读书笔记</a>中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及<a href="https://blog.csdn.net/sunqiande88/article/details/80219842" target="_blank" rel="noopener"><code>Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像</code></a>的DCGAN的卷积网络结构。</p>
+<a id="more"></a>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    伯德涛
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://bird-tao.github.io/2020/04/17/LIA_implementation/" title="“隐含双射自编码器”编程实现">http://bird-tao.github.io/2020/04/17/LIA_implementation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/生成模型/" rel="tag"># 生成模型</a>
+          
+            <a href="/tags/GAN/" rel="tag"># GAN</a>
+          
+            <a href="/tags/VAE/" rel="tag"># VAE</a>
+          
+            <a href="/tags/NF/" rel="tag"># NF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/15/LIA_report/" rel="next" title="“隐含双射自编码器”读书笔记">
+                <i class="fa fa-chevron-left"></i> “隐含双射自编码器”读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -349,6 +483,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -369,8 +510,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -450,6 +600,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -613,6 +779,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
