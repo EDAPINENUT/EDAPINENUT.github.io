@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training2.jpg">
-<meta property="og:updated_time" content="2020-04-17T13:41:00.115Z">
+<meta property="og:updated_time" content="2020-04-17T13:47:24.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="“隐含双射自编码器”读书笔记">
 <meta name="twitter:description" content="引言因为个人原因，已经有很久没有更新博文了。然而在这停更的近两年中，小林同学还是在不断学习进步与成长，也对自己未来的学习目标更加明确了。 近期对于一篇2019年小米AI实验室产出的“对隐含双射自编码器进行对抗学习”(arXiv:1906.08090v1 [cs.LG] 19 Jun 2019)的论文进行了详细的阅读以及简化版本的编程实现。在此进行分享。">
@@ -434,10 +434,10 @@
 <h2 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h2><p>本篇论文的模型架构为AE+NF的结构，架构图如下:<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA.png" width="70%" height="70%"></p>
 <p>其中，$g$函数的网络层构造是与StyleGAN的generator一致，并且$f$的网络构造与$g$完全对称。关于$\phi$的构造，使用了上述NICE中“多层可加耦合层（ReLU被Leaky ReLU进行替换）+ 尺度变换层”的结构进行构造。由此，AE+NF结构的生成神经网络就搭建完毕了。网络先通过$f$将高维$X$映射压缩至低维的$Y$，但是Y之间的元素可能仍然为一个高维曲面，因此再由$\phi$将$Y$映射至隐含层$Z$，使其展开成为一个平面；在生成过程中，对$Z$进行抽样后，由$\phi^{-1}$复原为$Y$，再通过$g$的作用生成$\bar X$。</p>
 <h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>文章的训练过程借鉴了GAN的对抗学习思想，在上述网络下，再构建$c$网络，对原图与生成的图进行辨别。<br>训练过程分为2步：<br>&nbsp;&nbsp; ①找到最佳的$g$与$\phi$；<br>&nbsp; &nbsp;②找到最佳的$f$。</p>
-<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>损失函数包含2种，第一种是传统的GAN训练时所用的损失函数：<br>\begin{align}<br>L(c,x,\bar x)min_{g} \max_{c} \mathbb{E}_{X \sim P_X }[log(c(x))] + \mathbb{E}_{\bar X \sim P_{\bar X}} [log(1-c(\bar x))] + \frac{\gamma}{2}\mathbb{E}_{X \sim P_X }[ \Vert \nabla_X c(x) \Vert ^2_{l_2}]<br>\end{align}<br>相比GAN的损失函数，多了第三项，为正则项，在<a href="https://arxiv.org/abs/1801.04406" target="_blank" rel="noopener">Which Training Methods for GANs do actually Converge?</a> 一文中证明其存在能够使得算法的收敛更为稳定。</p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>损失函数包含2种，第一种是传统的GAN训练时所用的损失函数：<br>\begin{align}<br>L(c,x,\bar x)\min_{g} \max_{c} \mathbb{E}_{X \sim P_X }[log(c(x))] + \mathbb{E}_{\bar X \sim P_{\bar X}} [log(1-c(\bar x))] + \frac{\gamma}{2}\mathbb{E}_{X \sim P_X }[ \Vert \nabla_X c(x) \Vert ^2_{l_2}]<br>\end{align}<br>相比GAN的损失函数，多了第三项，为正则项，在<a href="https://arxiv.org/abs/1801.04406" target="_blank" rel="noopener">Which Training Methods for GANs do actually Converge?</a> 一文中证明其存在能够使得算法的收敛更为稳定。</p>
 <p>第二种是特征提取损失：<br>\begin{align}<br>L(\epsilon, x, \bar x) &amp;= \Vert \epsilon (x) - \epsilon(\bar x) \Vert _{l_p}<br>\end{align}<br>其中$\epsilon$是特征提取器，如预训练过的VGG或者ResNet等，可以衡量两张图片的差异性，在模型训练过程中，参数始终固定不变。文中使用的是VGG。</p>
 <h3 id="训练步骤①"><a href="#训练步骤①" class="headerlink" title="训练步骤①"></a>训练步骤①</h3><p> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training1.jpg" width="50%" height="50%"></p>
-<p>该步利用GAN中对抗训练的算法，训练$phi^{-1}$，$g$与$c$，由于$\phi^{-1}$与$\phi$是反函数，因此$\phi$也由此确定，训练的目标函数为：<br>\begin{align}<br>{\phi ^{*}, g^{*},c^{*}} = \min_{\phi,g} \max{c} L(c,x,\bar x)<br>\end{align}</p>
+<p>该步利用GAN中对抗训练的算法，训练$phi^{-1}$，$g$与$c$，由于$\phi^{-1}$与$\phi$是反函数，因此$\phi$也由此确定，训练的目标函数为：<br>\begin{align}<br>{\phi ^{*}, g^{*},c^{*}} = \min_{\phi,g} \max_{c} L(c,x,\bar x)<br>\end{align}</p>
 <h3 id="训练步骤②"><a href="#训练步骤②" class="headerlink" title="训练步骤②"></a>训练步骤②</h3><p> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training2.jpg" width="50%" height="50%"></p>
 <p>在$\phi^{-1}$，$g$与$c$训练完毕后，用$\phi ^{*}, g^{*},c^{*}$进行表示，保持其不变，从而仍旧用对抗网络的思想对$f$进行训练，训练的损失函数为:<br>\begin{align}<br>f^{*} = \min_f \beta L(\epsilon, x, \bar x) + L(c^{*},x,\bar x)<br>\end{align}<br>其中，$\beta$为第一项的权重，是预先设定的超参。与GAN的训练不同的是，$\bar X$不再由$Z$抽样后通过$\phi^{-1}, g$进行生成，而是将已有的$X$作为网络输入，经过$f$与$g$后，得出的$\bar X$，这样的过程包括了欺骗$c$以及基于原始图像所生成的图像与原始图像需要高度相似的特点。</p>
 <h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p>文章设定$\gamma = 10$, $\beta = 0.001$，$Z \sim N(0,1)$，在<a href="https://github.com/NVlabs/ffhq-dataset" target="_blank" rel="noopener">FFHQ</a>高清人脸数据集上进行训练以及模型之间的比较。<br>其与目前公认较为先进的Glow模型，ALI模型，AGE模型，Encoded StyleGAN以及基于MSE优化函数训练的模型进行对比。利用 FID，SWD以及MSE三种评分作为评价指标。得出结果如下：</p>
