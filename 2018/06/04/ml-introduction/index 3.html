@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="Lo56C_yZsz6iVu-YOaYhny1KpoUx6bYzd3hSzEdzynU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,科普," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="浅浅浅谈机器学习引言近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。 （憋了半天才憋出的冠冕堂皇的引文终于结束了，以下">
+<meta name="keywords" content="机器学习,科普">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅浅浅谈机器学习">
+<meta property="og:url" content="http://bird-tao.github.io/2018/06/04/ml-introduction/index.html">
+<meta property="og:site_name" content="伯德涛的博客">
+<meta property="og:description" content="浅浅浅谈机器学习引言近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。 （憋了半天才憋出的冠冕堂皇的引文终于结束了，以下">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/melonpricing.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/regressionandclassification.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/babylearn.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/machinelearn.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/mlprocess.png">
+<meta property="og:updated_time" content="2018-06-06T08:27:26.890Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅浅浅谈机器学习">
+<meta name="twitter:description" content="浅浅浅谈机器学习引言近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。 （憋了半天才憋出的冠冕堂皇的引文终于结束了，以下">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/melonpricing.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://bird-tao.github.io/2018/06/04/ml-introduction/"/>
+
+
+
+
+
+  <title>浅浅浅谈机器学习 | 伯德涛的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">伯德涛的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+<script type="text/javascript">
+    window.onblur = function () {
+        document.title = "失学少年的日常";
+    };
+    
+</script>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bird-tao.github.io/2018/06/04/ml-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伯德涛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="伯德涛的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅浅浅谈机器学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T00:00:00+08:00">
+                2018-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Polularization/" itemprop="url" rel="index">
+                    <span itemprop="name">Polularization</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/04/ml-introduction/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/06/04/ml-introduction/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="浅浅浅谈机器学习"><a href="#浅浅浅谈机器学习" class="headerlink" title="浅浅浅谈机器学习"></a>浅浅浅谈机器学习</h2><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>近年来由于计算机硬件、云计算、云储存等各个行业的快速发展与技术成熟，为计算机能够快速处理海量数据的能力提供了可能的环境。在Alpha Go (下围棋), Tesla (自动驾驶), Siri (自然语言处理) 等人工智能程序与产品一次一次地轰炸朋友圈，微博等社交网站的同时，机器学习、人工智能、大数据这些话题随之走向了热度的巅峰。</p>
+<p><center>（憋了半天才憋出的冠冕堂皇的引文终于结束了，以下将是没那么正经的博文主要内容。)</center></p>
+<p>对于诸多非相关专业的童鞋来说，机器学习、人工智能等话题只是听说过，脑海中却没能形成相关的概念。本篇博文作为科普性文章，将会用十分浅显的语言和贴合生活的例子对机器学习中的一些概念与方法做出通俗易懂的解释。</p>
+<p>对于机器学习的初步理解，无非就是三个问题：什么是机器学习？机器怎么学习？为什么要让机器进行学习？（非常哲学地总结起来就是： What? How? Why?）</p>
+<a id="more"></a>
+<h3 id="Why？"><a href="#Why？" class="headerlink" title="Why？"></a>Why？</h3><p>第三个问题相信没与时代脱节太严重的同学都应该能答得上来，其实机器学习的目的很简单，就是实现人工智能 – 使机器能够代替或者帮助人类完成一些特定的工作。如实现语言交互使办公更加高效（Siri），自动驾驶使出行更加轻松方便（Tesla）等等等等。这样的对于Why的解释其实是十分广义笼统的，可以视为比赚一个亿还要大的目标了。而从狭隘而更加具体一点的角度来说，机器学习的小目标主要就是<strong>根据已有的输入数据得到正确的输出结果</strong>，这样的预测任务主要可分为两种：分类(classification)与回归(regression)。<br>　　①分类：分类是十分好理解的，比如给计算机一张人像图片，让它分出图片中的人是男是女，这就是比较典型的分类问题，下面的诸多案例都是分类案例，在此不详说了。分类最终的输出结果是离散的，比如{男，女}就是一个输出的可能结果。<br>　　②回归：回归相对就没那么好理解了，回归简单的来说就可以理解一个函数关系，由一些自变量作为特征输入后，得到的一个数字，得到的数字在函数关系中作为因变量，在机器学习中便作为输出结果。比如线性回归就是典型的范例，接触过的同学应该知道，线性回归也是属于回归范畴的。这么说来可能有些抽象，那接下来我们来看个具体实例吧：</p>
+<p><strong>Example 1</strong><br>小林是一个西瓜商，卖瓜经验十分丰富，在全国各地都有门店进行卖瓜。然而小林基于自己卖瓜十年的老道经验，对于西瓜的定价就十分有讲究了：<br>　　· 在消费水平比较高的上海；由于魔都结界的存在，上海常年不受台风的影响，收成比较好；五月份就成熟的西瓜还不多。 由此定价西瓜一斤五块。<br>　　· 仍然是在上海；台风又没如期而至；七月份西瓜大片大片地成熟。 由此定价西瓜一斤一块二。<br>　　· 还是在上海；台风竟然在八月初来了，瓜田一片狼藉；虽是西瓜泛滥的八月，但是收成却很差。由此定价西瓜一斤两块四。<br>　　· 在消费水平没那么高的广西；没受到台风的影响，收成好；七月西瓜熟的多。 由此西瓜定价八毛一斤。</p>
+<p><center>（以上价格都是自己瞎掰，没有任何的地域歧视倾向。若有冒犯，多多谅解。）</center></p>
+<p>这样，我们就可以认为，小林实际上在根据西瓜的不同特征在做回归。按照以上的例子，其作为特征的自变量主要有：贩卖地点、收成情况、销售月份；其输出的因变量就是根据不同的特征来进行的西瓜定价结果，总结如下：</p>
+<table>
+<thead>
+<tr>
+<th>贩卖地点</th>
+<th>收成情况</th>
+<th>销售月份</th>
+<th>最终定价 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 上海</td>
+<td>好</td>
+<td>五月</td>
+<td>5</td>
+</tr>
+<tr>
+<td>上海</td>
+<td>好</td>
+<td>七月</td>
+<td>1.2    </td>
+</tr>
+<tr>
+<td>上海</td>
+<td>不好</td>
+<td>八月</td>
+<td>2.4    </td>
+</tr>
+<tr>
+<td>广西</td>
+<td>好</td>
+<td>七月</td>
+<td>0.8    </td>
+</tr>
+</tbody>
+</table>
+<p>第四个西瓜定价事例的流程示意如下：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/melonpricing.png" width="100%" height="100%"></p>
+<p>而事实上可能市场的西瓜定价与小林的定价是有所偏差的，比如市场均价为2.5元， 小林的定价为2.4元，小林会依据市场的定价做出适当的调整。这样的偏差可以视作<strong>误差</strong>，正确的输出结果的误差应该是可以接受的（比如在此例中误差仅仅为0.1元，与总定价2.4元相比显得微不足道，可以接受）。在回归问题中（甚至是所有与观测有关的问题）误差是常会遇到的名词，在此就不详细解释了。</p>
+<p>这就是一个典型的回归问题了，该类问题中所有可能的输出的结果组成的集合是<strong>连续的</strong>。[Tips :虽然钱是不连续的，人民币最小单位是一分，但是可以通过连续的输出然后四舍五入确定定价]。</p>
+<p><font color="red">由此总结：分类与回归任务都是根据一些输入数据而做输出结果的预测，但分类的结果组成集合是离散的，回归的结果组成的集合往往是连续的。比如年龄问题中，年龄（段）作为输出，分类问题中可能的结果组成的集合：{少年，青年，中年，老年} 是离散的；而回归中，从7岁到70岁这样的年龄区间就可以视为连续的。</font></p>
+<p>看罢小林卖瓜的例子后，同样的过程可以解释上述分类与回归问题的区别：<br><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/regressionandclassification.png" width="100%" height="100%"></p>
+<h3 id="What-amp-How"><a href="#What-amp-How" class="headerlink" title="What &amp; How?"></a>What &amp; How?</h3><p>解释完 Why 以后，接下来是回答第What &amp; How？这两个问题。以下举了一个简单的范例来让诸位更好地了解 What &amp; How 。</p>
+<p><strong>Example 2</strong><br>试想有一个大脑长期记忆储存功能已经发育成熟但是对性别这方面一无所知的婴儿，脑子就像干净的就像白纸一样，关于男生女生没有一条记录。（严谨起见，实际上这样的“白纸婴儿”是不一定存在的，但是这样的“白纸婴儿”还是很容易想象的。）在此可以把“白纸婴儿”类比为一无所知但是能够储存信息的计算机，通过“白纸婴儿”的例子可以更好地了解机器学习的概念：</p>
+<p>小林同学是这个“白纸婴儿”的老师，小林同学的教学任务是：教会“白纸婴儿”如何辨别一张照片上的人是男人还是女人。那么，小林同学是怎么做的呢？<br>　　①他先整理了100张照片，然后将这100张照片的背面都写上照片上的人像是男是女（这里暂且不考虑其他性别）。<br>　　②挑选出80张照片给“白纸婴儿”看，并且告诉他正确的性别。<br>　　③待“白纸婴儿”将所有80张照片认真看完（一遍或几遍）以后，把剩下的20张照片作为性别识别的小测试，看看“不再白的白纸婴儿”对于没见过的照片，识别正确率如何。<br>　　④如果测试正确率还能接受的话，未来就可以给他更多的照片，分配给他一个专门分辨照片上的人像性别的工作了。</p>
+<p>[Tips :由于小林同学是性别辨别界的大牛，辨别性别时不可能出错，具备一眼就能看出照片中的女装大佬、扶他等诸多能力，所以给予照片标签的时候正确率达到了100%，不存在数据集误标这样的情况。]</p>
+<h4 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h4><p>把小林同学视作从事机器学习工作的技术人员，“白纸婴儿”视作计算机，上述的过程便是机器学习中典型的<strong>监督学习</strong>的过程。作为机器学习中的一大类别，监督学习，顾名思义，就是在“有人类监督”的情况下的机器学习，也就是人类在计算机的学习的过程中，当了<strong>老师的角色，对其进行指导</strong>。在此这个案例与绝大多数监督学习中，人类的“监督”工作便是，<strong>告诉了计算机每张照片所属于的正确的类别</strong> — 即这张照片里的人到底是男人还是女人。机器在学习的过程中，不仅仅能够读取到这张照片中的所有信息，还能知道这张照片中的正确的人像性别，这对其学习效率与正确率的帮助无疑是巨大的；就像教导“白纸婴儿”的过程中，若一开始小林同学不告诉他照片上究竟是男人还是女人，“白纸婴儿”要学习如何识别男女想必也是无从下手吧。</p>
+<p>此外，小林同学还做了一件事，就是将所有的100张照片划分为两份：<br>　　· 一份80张，用于训练“白纸婴儿” — 这便是机器学习中用于训练计算机的<strong>训练集</strong>。<br>　　· 一份20张，用于测试“白纸婴儿”—这便是机器学习中用于测试训练结果的<strong>测试集</strong>。<br>最终，<strong>训练与测试的正确率</strong>共同决定了本次的教学质量。</p>
+<p>[Tips: 有的同学会问为什么训练也会有正确率呢，答案肯定是有啊。想想自己在读书的时候，刷了一些题后，对于有一些特定的题总是想不明白答案为什么是这样而不是自己想的那样，心里会想：我做的明明没有错啊，肯定是答案错了balabala此类的…]<br>上述的学习与测试流程用生动的图片进行表达就是这样：<br>  <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/babylearn.png" width="100%" height="100%"><br><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/machinelearn.png" width="100%" height="100%"></p>
+<p>在正确率检测都过关以后，计算机就可以被分配予<strong>预测</strong>给定输入照片中人像的性别的工作(需要预测的图片当然是没经过标记了)。 这就是完成学习后，机器由“白纸”转换成“智能”的过程。</p>
+<p>因此，机器学习的总流程可以用下图所示。<br><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/mlprocess.png" width="100%" height="100%"><br>总结下来，其过程就是分三步走：<strong>训练(学习过程) –&gt; 测试(结果检测) –&gt; 预测(学习目的)</strong></p>
+<p>至此，相信同学们对于机器学习是什么，机器是如何学习的，以及监督学习中的<strong>“监督”</strong>的概念都有了初步的了解。</p>
+<h4 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h4><p>肯定有同学不由地会问：是不是还有与监督学习不相同的学习方式呢？<br>没错，是存在的。另一种机器学习的类别便是无监督学习。虽然机器学习的绝大多数算法都是基于监督学习提出的，仍然有一些无监督学习的算法被广泛地使用，如聚类(Clustering)，主成分分析(PCA)等等。本篇主要任务是科普，因此对于算法就不详细介绍了，在之后的博文中会对其进行一一介绍的。</p>
+<p><font color="red"><strong>无监督学习与监督学习的本质区别就是，在训练的过程中，监督学习的训练集是做了标记的，也就是机器可以同时知道训练集中实际的输入与输出结果（如正确的类标，实际的市场定价）；无监督学习却恰恰相反，机器的训练过程中，训练集是不带有实际的结果的，所以机器只能知道输入数据，而不知道输出结果。形象点描述，无监督学就是在没有人的正确引导下机器自己从仅有的输入特征中得到结果(可能正确可能错误)。</strong></font></p>
+<p>下面就举个无监督学习的例子：</p>
+<p><strong>Example 3</strong><br>试想班级中原本对班级情况十分了解的班主任病了，而新来的代班主任是个极度集权毫无民主可言的傲娇老头（参见齐木楠雄の爷爷）。恰逢其任期内学校需要组织秋游，而秋游需要将班级中的同学进行分组。傲娇的老头不愿意给同学们一点民主选择分组的权利，决定分组全由自己分。但是老头还是十分关爱同学的，担心自己分的组会导致同学秋游玩的不高兴，那怎么办呢？老头想到了一招：</p>
+<p>每天下课在教室门外暗中观察同学们下课的扎堆情况。经常扎成一堆的同学应该是关系都比较要好的同学，偶尔讲讲话的应该没那么要好，从来不讲话的那应该是不熟或者是之间发生过摩擦。</p>
+<p>代班主任将几日观察下来的结果进行了汇总，从而成功的分完了5组。</p>
+<p>这个例子中，每个同学心中想要进的组就是实际的<strong>类标</strong>（上述例子中，照片背面的“男”或“女”作为每张照片的类标），比如学号为1的男生想进第3组，那他的类标就是3；学号为2的男生和1号男生发生过口角，打死不和他一组，希望进第4组，类标为4；学号为10的女生暗恋学号为1的男生也想进第3组，那她的类标也是3。而代班主任是不知道实际的类标的，他把<strong>“同学间课间时的亲密程度”</strong>作为了衡量类标的方法，由此将同学们划分成了5个小组（5类），并且成功地在已知“亲密程度”的情况下，使划错类的可能性相对于盲目地划分小组明显小了许多。</p>
+<p>这其实就是实际生活中<strong>“聚类”</strong>的思想，与机器学习中的“聚类”基本思想一致。在不知道每个学生心中想要去的小组的情况下— 即<strong>“无监督”</strong>，没人给你事先标好正确的分类，学生的“课间亲密程度”这一特征作为了聚类的标准，从而依据这一标准对同学进行了小组的划分。</p>
+<p>然而，聚类的缺点是明显存在的，试想一个白纸婴儿在有老师指导学习和无老师指导，自己摸索学习的两种情况下，肯定是后一学习方法更容易让婴儿走向歧途的。比如缺失了必要的评判标准（这在监督学习中也会出现，而无监督学习中更为明显）：对于学号为10的女生，由于她是暗恋学号为1的男生，因此老师无法在课间中成功捕捉信息，导致把女生分到了第5组，与女生心中的类标不一致。<strong>聚类算法</strong>还有更加明显的缺点，将会在下一篇文章中将特征提取时提到。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在认真读罢本文后，相信很多童鞋都能对机器学习有了初步的认识。对于其中的一些概念，如：预测、分类、回归、监督学习、无监督学习、测试集、训练集、正确率、聚类等名词都能够有所了解。</p>
+<p>最后给爱独立思考的童鞋留一个小问题：在范例1中（即回归范例中），若让机器来进行回归，这算监督学习还是无监督学习？小林在定价时做的是机器学习过程中”三步走”的哪一步？小林有没有经历过训练的过程，有的话，训练集是什么呢？</p>
+<p>思考过后，想要知道答案的同学可以点击：- <a href="https://bird-tao.github.io/2018/06/05/ml-introduction-answer/#more">浅浅浅谈机器学习 – 思考题答案</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    伯德涛
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://bird-tao.github.io/2018/06/04/ml-introduction/" title="浅浅浅谈机器学习">http://bird-tao.github.io/2018/06/04/ml-introduction/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/科普/" rel="tag"># 科普</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/02/mc-inverse_transform/" rel="next" title="蒙特卡洛抽样方法 -- Inverse Transform Sampling">
+                <i class="fa fa-chevron-left"></i> 蒙特卡洛抽样方法 -- Inverse Transform Sampling
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/05/ml-introduction-answer/" rel="prev" title="浅浅浅谈机器学习 -- 思考题答案公布">
+                浅浅浅谈机器学习 -- 思考题答案公布 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.jpeg"
+                alt="伯德涛" />
+            
+              <p class="site-author-name" itemprop="name">伯德涛</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BIRD-TAO" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lbirdtao@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浅浅浅谈机器学习"><span class="nav-number">1.</span> <span class="nav-text">浅浅浅谈机器学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引言"><span class="nav-number">1.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why？"><span class="nav-number">1.2.</span> <span class="nav-text">Why？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-amp-How"><span class="nav-number">1.3.</span> <span class="nav-text">What &amp; How?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#监督学习"><span class="nav-number">1.3.1.</span> <span class="nav-text">监督学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无监督学习"><span class="nav-number">1.3.2.</span> <span class="nav-text">无监督学习</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伯德涛</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'nCBcvSHMHL06VjCc5Axe8KOX-gzGzoHsz',
+        appKey: '8DEsvKcJCo2LMy2szyLYyXfR',
+        placeholder: 'Think out loud!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.4/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+ 
+
+</body>
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="Lo56C_yZsz6iVu-YOaYhny1KpoUx6bYzd3hSzEdzynU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度学习,生成模型,GAN,VAE,NF," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="引言本篇会对于上一篇 “隐含双射自编码器”读书笔记中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及“Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像”的DCGAN的卷积网络结构。本次实现也是基于该链接中的动漫头像图片作为数据集进行训练。详细的代码见我的Github。 文章沿用了上一篇的诸多记号，推荐对于上一篇先进行阅读后，再来看本篇实现方案。">
+<meta name="keywords" content="深度学习,生成模型,GAN,VAE,NF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“隐含双射自编码器”编程实现">
+<meta property="og:url" content="http://bird-tao.github.io/2020/04/17/LIA_implementation/index.html">
+<meta property="og:site_name" content="伯德涛的博客">
+<meta property="og:description" content="引言本篇会对于上一篇 “隐含双射自编码器”读书笔记中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及“Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像”的DCGAN的卷积网络结构。本次实现也是基于该链接中的动漫头像图片作为数据集进行训练。详细的代码见我的Github。 文章沿用了上一篇的诸多记号，推荐对于上一篇先进行阅读后，再来看本篇实现方案。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_oa.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/CouplingLayer.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/gNet.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training2.jpg">
+<meta property="og:updated_time" content="2020-04-17T13:32:19.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="“隐含双射自编码器”编程实现">
+<meta name="twitter:description" content="引言本篇会对于上一篇 “隐含双射自编码器”读书笔记中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及“Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像”的DCGAN的卷积网络结构。本次实现也是基于该链接中的动漫头像图片作为数据集进行训练。详细的代码见我的Github。 文章沿用了上一篇的诸多记号，推荐对于上一篇先进行阅读后，再来看本篇实现方案。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_oa.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://bird-tao.github.io/2020/04/17/LIA_implementation/"/>
+
+
+
+
+
+  <title>“隐含双射自编码器”编程实现 | 伯德涛的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">伯德涛的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+<script type="text/javascript">
+    window.onblur = function () {
+        document.title = "失学少年的日常";
+    };
+    
+</script>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bird-tao.github.io/2020/04/17/LIA_implementation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="伯德涛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="伯德涛的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">“隐含双射自编码器”编程实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-17T00:00:00+08:00">
+                2020-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning-Generative-Models/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning (Generative Models)</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/17/LIA_implementation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/17/LIA_implementation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本篇会对于上一篇 <a href="https://bird-tao.github.io/2020/04/15/LIA_report/#more">“隐含双射自编码器”读书笔记</a>中的生成网络进行简化版本的实现。主要基于pytorch深度学习框架，以及<a href="https://blog.csdn.net/sunqiande88/article/details/80219842" target="_blank" rel="noopener">“Pytorch实战3：DCGAN深度卷积对抗生成网络生成动漫头像”</a>的DCGAN的卷积网络结构。本次实现也是基于该链接中的动漫头像图片作为数据集进行训练。详细的代码见我的<a href="https://github.com/BIRD-TAO/LIA" target="_blank" rel="noopener">Github</a>。</p>
+<p>文章沿用了上一篇的诸多记号，推荐对于上一篇先进行阅读后，再来看本篇实现方案。</p>
+<a id="more"></a>
+<h2 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h2><p>创建<a href="https://github.com/BIRD-TAO/LIA/blob/master/utils.py" target="_blank" rel="noopener">utils.py</a>文件，其中放置所有与工具函数相关的内容。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> autograd</span><br><span class="line"><span class="comment">#在训练数据上增加噪音（DCGAN模型准备）</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dequantize</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="string">'''Dequantize data.</span></span><br><span class="line"><span class="string">    Add noise sampled from Uniform(0, 1) to each pixel (in [0, 255]).</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        x: input tensor.</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        dequantized data.</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    noise = torch.distributions.Uniform(<span class="number">0.</span>, <span class="number">1.</span>).sample(x.size())</span><br><span class="line">    <span class="keyword">return</span> (x * <span class="number">255.</span> + noise) / <span class="number">256.</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">prepare_data</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> len(list(x.size())) == <span class="number">4</span></span><br><span class="line">    [B, C, H, W] = list(x.size())</span><br><span class="line">    x = dequantize(x)</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="comment">#计算对于X的正则项</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_grad2</span><span class="params">(d_out, x_in)</span>:</span></span><br><span class="line">    batch_size = x_in.size(<span class="number">0</span>)</span><br><span class="line">    grad_dout = autograd.grad(</span><br><span class="line">        outputs=d_out.sum(), inputs=x_in,</span><br><span class="line">        create_graph=<span class="keyword">True</span>, retain_graph=<span class="keyword">True</span>, only_inputs=<span class="keyword">True</span></span><br><span class="line">    )[<span class="number">0</span>]</span><br><span class="line">    grad_dout2 = grad_dout.pow(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">assert</span>(grad_dout2.size() == x_in.size())</span><br><span class="line">    reg = grad_dout2.view(batch_size, <span class="number">-1</span>).sum(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> reg</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">regularization_term</span><span class="params">(d_out,x_in)</span>:</span></span><br><span class="line">    reg = compute_grad2(d_out, x_in).mean()</span><br><span class="line">    <span class="keyword">return</span> reg</span><br></pre></td></tr></table></figure>
+<h2 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h2><p>创建<a href="https://github.com/BIRD-TAO/LIA/blob/master/model.py" target="_blank" rel="noopener">model.py</a>文件，其中放置所有与模型相关的内容。<br>模型的整体结构图如下：<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_oa.png" width="100%" height="100%"><br>下面我们将会对$\phi,g,c,f$四个模块进行介绍以及实现。</p>
+<h3 id="使用NICE中的Coupling-Layer以及Scaling-Layer搭建-phi"><a href="#使用NICE中的Coupling-Layer以及Scaling-Layer搭建-phi" class="headerlink" title="使用NICE中的Coupling Layer以及Scaling Layer搭建$\phi$"></a>使用NICE中的Coupling Layer以及Scaling Layer搭建$\phi$</h3><p>首先我们先定义Coupling Layer类，其结构如下:<br> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/CouplingLayer.png" width="30%" height="30%"><br>红色的线表示用$m(·)$进行映射，黑色的线代表等值映射。这里假设隐含层$Z$为128维随机向量，因此各个层$Y$的维度也为128。网络第一层$\phi_1$的分割方式为：奇数序数元素作为$X_{I_1} = (Y_{1,1},Y_{1,3},\cdots,Y{1,127})$，偶数序数元素作为$X_{I_2} = (Y_{1,2},\cdots,Y_{1,126},Y_{1,128})$。<br>根据NICE中可加耦合层（Additive Coupling Layer）的计算公式，其等值映射的部分为：<br>\begin{align}<br>Y_{2,1} &amp;= Y_{1,1}\\<br>Y_{2,2} &amp;= Y_{1,3}\\<br>&amp;\cdots\\<br>Y_{2,64} &amp;= Y_{1,128}<br>\end{align}<br>即第二层的前64个神经元等于第一层奇数序数神经元。<br>而对于第二层的后64个神经元，其与第一层的关系为：<br>\begin{align}<br>Y_{2,65} &amp; = Y_{1,2} + m(X_{I_1})\\<br>Y_{2,66} &amp; = Y_{1,4} + m(X_{I_1})\\<br>&amp;\cdots\\<br>Y_{2,128} &amp; = Y_{1,128} + m(X_{I_1})\\<br>\end{align}<br>即第二层的后64个神经元为第一层偶数序数神经元加非线性$m$映射。<br>我们的模型中，非线性$m$映射的结构为简单的”Linear + Leaky ReLu(0.2)”组合进行逼近。<br>按照上述方法，就完成了对$\phi_1$的构建，对后一层$\phi_2$采用同样的方式，只是此时将偶数序数元素作为$X_{I_1} = (Y_{1,2},Y_{1,4},\cdots,Y_{1,128})$，奇数序数元素作为$X_{I_2}$。遵循“偶数层偶数序数单元为$X_{I_1}$，遵循奇数层奇数序数单元为$X_{I_1}$。”的规律，构建四层可加耦合层，对于$\phi = \phi_1 \circ \phi_2\circ \phi_3\circ \phi_4\circ s$中的前4个函数进行逼近。<br>因为已经对$\phi_1,\phi_2,\phi_3,\phi_4$构建完毕，因此对应的，对于$\phi^{-1} =s^{-1} \circ \phi^{-1} _4 \circ \phi^{-1} _3 \circ \phi^{-1} _2 \circ \phi^{-1} _1 $中的后四层也构建完毕。最后是Coupling Layer的代码实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Coupling</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_out_dim, mid_dim = None, hidden_num = <span class="number">0</span>, mask_config = <span class="number">1</span>)</span>:</span></span><br><span class="line">        <span class="string">"""Initialize a coupling layer.</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            in_out_dim: 输入与输出的维度（NF中输入与输出相同）</span></span><br><span class="line"><span class="string">            mid_dim: 隐藏层的维度</span></span><br><span class="line"><span class="string">            hidden_num: 隐藏层数目</span></span><br><span class="line"><span class="string">            mask_config: 1 对index为奇数的进行转换, 0 对index为偶数对进行转换。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        super(Coupling, self).__init__()</span><br><span class="line"></span><br><span class="line">        mid_dim = in_out_dim <span class="keyword">if</span> mid_dim <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">else</span> mid_dim</span><br><span class="line">        <span class="keyword">if</span> hidden_num == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">assert</span> (mid_dim == in_out_dim)</span><br><span class="line">            </span><br><span class="line">        self.hidden_num = hidden_num</span><br><span class="line">        self.mask_config = mask_config</span><br><span class="line"></span><br><span class="line">        self.in_block = nn.Sequential(</span><br><span class="line">            nn.Linear(in_out_dim//<span class="number">2</span>, mid_dim),</span><br><span class="line">            nn.ReLU())</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> hidden_num &gt;= <span class="number">1</span>:</span><br><span class="line">            self.mid_block = nn.ModuleList([</span><br><span class="line">                nn.Sequential(</span><br><span class="line">                    nn.Linear(mid_dim, mid_dim),</span><br><span class="line">                    nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">                    ) <span class="keyword">for</span> _ <span class="keyword">in</span> range(hidden_num - <span class="number">1</span>)])</span><br><span class="line"></span><br><span class="line">        self.out_block = nn.Linear(mid_dim, in_out_dim//<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x, reverse=False)</span>:</span></span><br><span class="line">        <span class="string">"""Forward .</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            x: input tensor</span></span><br><span class="line"><span class="string">            reverse: True in inference mode, False in sampling mode.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            forward result。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        [B, W] = list(x.size())</span><br><span class="line">        x = x.reshape((B, W//<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">        <span class="keyword">if</span> self.mask_config:</span><br><span class="line">            on, off = x[:, :, <span class="number">0</span>], x[:, :, <span class="number">1</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            off, on = x[:, :, <span class="number">0</span>], x[:, :, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        off_ = self.in_block(off)</span><br><span class="line">        <span class="keyword">if</span> self.hidden_num &gt;<span class="number">1</span> :</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(self.mid_block)):</span><br><span class="line">                off_ = self.mid_block[i](off_)</span><br><span class="line">        shift = self.out_block(off_)</span><br><span class="line">        <span class="keyword">if</span> reverse:</span><br><span class="line">            on = on - shift</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            on = on + shift</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.mask_config:</span><br><span class="line">            x = torch.stack((on, off), dim=<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            x = torch.stack((off, on), dim=<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> x.reshape((B, W))</span><br></pre></td></tr></table></figure></p>
+<p>再创建尺度变换层Scaling类作为上述最后的$s$映射，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scaling</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, dim)</span>:</span></span><br><span class="line">        <span class="string">"""Initialize a (log-)scaling layer.</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            dim: input/output dimensions.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        super(Scaling, self).__init__()</span><br><span class="line">        self.scale = nn.Parameter(</span><br><span class="line">            torch.zeros((<span class="number">1</span>, dim)), requires_grad=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x, reverse=False)</span>:</span></span><br><span class="line">        <span class="string">"""Forward pass.</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            x: input tensor.</span></span><br><span class="line"><span class="string">            reverse: True in inference mode, False in sampling mode.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            transformed tensor and log-determinant of Jacobian.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> reverse:</span><br><span class="line">            x = x * torch.exp(-self.scale)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            x = x * torch.exp(self.scale)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用DCGAN中的Generator与Classifier搭建-g-与-c"><a href="#使用DCGAN中的Generator与Classifier搭建-g-与-c" class="headerlink" title="使用DCGAN中的Generator与Classifier搭建$g$与$c$"></a>使用DCGAN中的Generator与Classifier搭建$g$与$c$</h3><p>在此，我们模仿DCGAN中的Generator与Classifier对这两个类进行搭建，c的网络结构如下：<br><img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/gNet.png" width="100%" height="100%"><br>这是默认情况下的$g$的结构，图片上数字比较小，代码中有详细的每一层输入输出以及卷积核的大小。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DCNet_Generator</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, ngf, nz)</span>:</span></span><br><span class="line">        super(DCNet_Generator, self).__init__()</span><br><span class="line">        <span class="comment"># layer1输入的是一个128x1x1的随机噪声, 输出尺寸(ngf*16)x4x4</span></span><br><span class="line">        self.layer1 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(nz, ngf * <span class="number">16</span>, kernel_size=<span class="number">4</span>, stride=<span class="number">1</span>, padding=<span class="number">0</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf * <span class="number">16</span>),</span><br><span class="line">            nn.ReLU(inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer2输出尺寸(ngf*8)x8x8</span></span><br><span class="line">        self.layer2 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(ngf * <span class="number">16</span>, ngf * <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf * <span class="number">8</span>),</span><br><span class="line">            nn.ReLU(inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer3输出尺寸(ngf*4)x16x16</span></span><br><span class="line">        self.layer3 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(ngf * <span class="number">8</span>, ngf * <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf * <span class="number">4</span>),</span><br><span class="line">            nn.ReLU(inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer4输出尺寸(ngf*2)x32x32</span></span><br><span class="line">        self.layer4 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(ngf * <span class="number">4</span>, ngf * <span class="number">2</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf*<span class="number">2</span>),</span><br><span class="line">            nn.ReLU(inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer5输出尺寸 ngf x 64 x 64</span></span><br><span class="line">        self.layer5 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(ngf * <span class="number">2</span>, ngf, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer6输出尺寸 3 x 128 x 128</span></span><br><span class="line">        self.layer6 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(ngf, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.Tanh()</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 定义NetG的前向传播</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        out = self.layer1(x)</span><br><span class="line">        out = self.layer2(out)</span><br><span class="line">        out = self.layer3(out)</span><br><span class="line">        out = self.layer4(out)</span><br><span class="line">        out = self.layer5(out)</span><br><span class="line">        out = self.layer6(out)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure></p>
+<p>同理，构建$c$，在默认参数下，$c$与$g$是完全对称的网络。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义鉴别器网络C</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DCNet_Classifier</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, ndf)</span>:</span></span><br><span class="line">        super(DCNet_Classifier, self).__init__()</span><br><span class="line">        <span class="comment"># layer1 输入 3 x 128 x 128, 输出 (ndf) x 64 x 64</span></span><br><span class="line">        self.layer1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">3</span>, ndf, kernel_size=<span class="number">4</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer2 输出 (ndf*2) x 32 x 32</span></span><br><span class="line">        self.layer2 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ndf, ndf * <span class="number">2</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf * <span class="number">2</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer3 输出 (ndf*4) x 16 x 16</span></span><br><span class="line">        self.layer3 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ndf * <span class="number">2</span>, ndf * <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf * <span class="number">4</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer4 输出 (ndf*8) x 8 x 8</span></span><br><span class="line">        self.layer4 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ndf * <span class="number">4</span>, ndf * <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf * <span class="number">8</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer5 输出 (ndf*16) x 4 x 4</span></span><br><span class="line">        self.layer5 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ndf * <span class="number">8</span>, ndf * <span class="number">16</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf * <span class="number">16</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer6 输出一个数(概率)</span></span><br><span class="line">        self.layer6 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ndf * <span class="number">16</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.Sigmoid()</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义NetD的前向传播</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        out = self.layer1(x)</span><br><span class="line">        out = self.layer2(out)</span><br><span class="line">        out = self.layer3(out)</span><br><span class="line">        out = self.layer4(out)</span><br><span class="line">        out = self.layer5(out)</span><br><span class="line">        out = self.layer6(out)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure></p>
+<h3 id="构建与-g-对称的-f-网络"><a href="#构建与-g-对称的-f-网络" class="headerlink" title="构建与$g$对称的$f$网络"></a>构建与$g$对称的$f$网络</h3><p>$f$网络在默认参数下与$c$相同，但是其始终保持与$g$是对称的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">fNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, ngf, nz)</span>:</span></span><br><span class="line">        super(fNet, self).__init__()</span><br><span class="line">        <span class="comment"># 输入ngf x 64 x 64,输出 (ngf*2) x 32 x 32</span></span><br><span class="line">        self.layer1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">3</span>, ngf, kernel_size=<span class="number">4</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 输入ngf x 64 x 64,输出 (ngf*2) x 32 x 32</span></span><br><span class="line">        self.layer2 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ngf, ngf * <span class="number">2</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf * <span class="number">2</span>),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># layer3输出尺寸(ngf*4)x16x16</span></span><br><span class="line">        self.layer3 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ngf * <span class="number">2</span>, ngf * <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf * <span class="number">4</span>),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 输出(ngf*8)x8x8</span></span><br><span class="line">        self.layer4 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ngf * <span class="number">4</span>, ngf * <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf * <span class="number">8</span>),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 输出(ngf*16)x4x4</span></span><br><span class="line">        self.layer5 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ngf * <span class="number">8</span>, ngf * <span class="number">16</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="keyword">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ngf * <span class="number">16</span>),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 输出128 x 1 x 1</span></span><br><span class="line">        self.layer6 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(ngf * <span class="number">16</span>, nz, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>, bias=<span class="keyword">False</span>)</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 定义Netf的前向传播</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        out = self.layer1(x)</span><br><span class="line">        out = self.layer2(out)</span><br><span class="line">        out = self.layer3(out)</span><br><span class="line">        out = self.layer4(out)</span><br><span class="line">        out = self.layer5(out)</span><br><span class="line">        out = self.layer6(out)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure></p>
+<h3 id="整合上述类，构建LIA"><a href="#整合上述类，构建LIA" class="headerlink" title="整合上述类，构建LIA"></a>整合上述类，构建LIA</h3><p>最终，将上述的$ f, \phi, g$类进行整合，得到我们的LIANET类：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">'''定义LIANet:</span></span><br><span class="line"><span class="string">结构为:</span></span><br><span class="line"><span class="string">x :[B,C*H*W] -&gt; EN_f -&gt; y -&gt; coupling1 -&gt; coupling2 -&gt; ... -&gt; coupling4 -&gt;  Scaling -&gt; z -&gt; inverse_Scaling</span></span><br><span class="line"><span class="string">inverse_coupling4 -&gt; inverse_coupling3 -&gt; .. -&gt; inverse_coupling1 -&gt; y'  -&gt; DCGAN_Generator</span></span><br><span class="line"><span class="string"> '''</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LIANet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, ngf, nz, coupling_k = <span class="number">4</span>, mid_dim = None, hidden_num = <span class="number">0</span>, mask_config = <span class="number">1</span>)</span>:</span></span><br><span class="line">        <span class="string">"""Forward.</span></span><br><span class="line"><span class="string">               Args:</span></span><br><span class="line"><span class="string">                   nz: z的维度，这里设置为128，也是coupling中in_out_input的维度.</span></span><br><span class="line"><span class="string">                    coupling_k: coupling层的数目</span></span><br><span class="line"><span class="string">                    coupling中的参数:</span></span><br><span class="line"><span class="string">                        mid_dim: 隐藏层的维度</span></span><br><span class="line"><span class="string">                        hidden_num: 隐藏层数目</span></span><br><span class="line"><span class="string">                        mask_config: 1 对index为奇数的进行转换, 0 对index为偶数对进行转换。</span></span><br><span class="line"><span class="string">                    DCGAN中的参数：</span></span><br><span class="line"><span class="string">                        ngf: 中间卷积的channel数目单位.</span></span><br><span class="line"><span class="string">               Returns:</span></span><br><span class="line"><span class="string">                    3x128x128的图片。</span></span><br><span class="line"><span class="string">         """</span></span><br><span class="line">        super(LIANet, self).__init__()</span><br><span class="line">        self.nz = nz</span><br><span class="line">        self.EN_f = fNet(ngf,nz)</span><br><span class="line">        </span><br><span class="line">        self.coupling = nn.ModuleList([</span><br><span class="line">            Coupling(in_out_dim=nz,</span><br><span class="line">                     mid_dim=mid_dim,</span><br><span class="line">                     hidden_num=hidden_num,</span><br><span class="line">                     mask_config=(mask_config + i) % <span class="number">2</span>) \</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(coupling_k)])</span><br><span class="line">        self.scaling = Scaling(nz)</span><br><span class="line">        self.DC_g = DCNet_Generator(ngf,nz)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">g</span><span class="params">(self, z)</span>:</span></span><br><span class="line">        <span class="string">"""Transformation g: Z -&gt; X (inverse of f).</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            z: tensor in latent space Z.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            transformed tensor in data space X.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        x = self.scaling(z, reverse=<span class="keyword">True</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> reversed(range(len(self.coupling))):</span><br><span class="line">            x = self.coupling[i](x, reverse=<span class="keyword">True</span>)</span><br><span class="line">        </span><br><span class="line">        [B, C] = list(x.size())</span><br><span class="line">        x = x.reshape(B,C,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        x = self.DC_g(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="string">"""Transformation f: X -&gt; Z (inverse of g).</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            x: tensor in data space X.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            transformed tensor in latent space Z.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        x = self.EN_f(x)</span><br><span class="line">        <span class="keyword">assert</span> len(list(x.size())) == <span class="number">4</span></span><br><span class="line">        [B, C, H, W] = list(x.size())</span><br><span class="line">        x = x.reshape((B, C * H * W))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(self.coupling)):</span><br><span class="line">            x = self.coupling[i](x)</span><br><span class="line">        <span class="keyword">return</span> self.scaling(x)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = self.f(x)</span><br><span class="line">        x = self.g(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sampling</span><span class="params">(self,z)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            z: torch.randn((sample_number,128))</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            imgs: size = (sample_number,3,128,128)</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">assert</span> (z.size() == <span class="number">4</span>)</span><br><span class="line">        <span class="keyword">return</span> self.g(z)</span><br></pre></td></tr></table></figure></p>
+<h2 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h2><p>创建<a href="https://github.com/BIRD-TAO/LIA/blob/master/train.py" target="_blank" rel="noopener">train.py</a>文件，其中放置所有与模型训练相关的内容。</p>
+<h3 id="参数定义"><a href="#参数定义" class="headerlink" title="参数定义"></a>参数定义</h3><p>首先定义一些训练时必要的参数作为文件的输入，以及图像的预处理方法，损失函数，优化方法等：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torchvision</span><br><span class="line"><span class="keyword">import</span> torchvision.utils <span class="keyword">as</span> vutils</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> model <span class="keyword">import</span> DCNet_Classifier,LIANet</span><br><span class="line"><span class="keyword">from</span> utils <span class="keyword">import</span> prepare_data,regularization_term</span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(<span class="string">'--batchSize'</span>, type=int, default=<span class="number">64</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--imageSize'</span>, type=int, default=<span class="number">128</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--nz'</span>, type=int, default=<span class="number">128</span>, help=<span class="string">'size of the latent z vector'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--ngf'</span>, type=int, default=<span class="number">64</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--ndf'</span>, type=int, default=<span class="number">64</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--epoch'</span>, type=int, default=<span class="number">30</span>, help=<span class="string">'number of epochs to train for'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--lr'</span>, type=float, default=<span class="number">0.0002</span>, help=<span class="string">'learning rate, default=0.0002'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--beta1'</span>, type=float, default=<span class="number">0.5</span>, help=<span class="string">'beta1 for adam. default=0.5'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--data_path'</span>, default=<span class="string">'data/'</span>, help=<span class="string">'folder to train data'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--outf'</span>, default=<span class="string">'outputs/'</span>, help=<span class="string">'folder to output images and model checkpoints'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--gamma'</span>, default=<span class="number">3</span>,help=<span class="string">'weight of regularization term. default=3'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--alpha'</span>, default=<span class="number">0.001</span>,help=<span class="string">'weight of feature extraction term. default=0.001'</span>)</span><br><span class="line"></span><br><span class="line">opt = parser.parse_args()</span><br><span class="line"><span class="comment"># 定义是否使用GPU</span></span><br><span class="line">device = torch.device(<span class="string">"cuda"</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>)</span><br><span class="line"><span class="comment">#图像读入与预处理</span></span><br><span class="line">transforms = torchvision.transforms.Compose([</span><br><span class="line">    torchvision.transforms.Scale(opt.imageSize), <span class="comment">#128</span></span><br><span class="line">    torchvision.transforms.ToTensor(),</span><br><span class="line">    torchvision.transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)),</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line">dataset = torchvision.datasets.ImageFolder(opt.data_path, transform=transforms) <span class="comment">#data/</span></span><br><span class="line"></span><br><span class="line">dataloader = torch.utils.data.DataLoader( </span><br><span class="line">    dataset=dataset,</span><br><span class="line">    batch_size=opt.batchSize,</span><br><span class="line">    shuffle=<span class="keyword">True</span>,</span><br><span class="line">    drop_last=<span class="keyword">True</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">LIA = LIANet(opt.ngf, opt.nz).to(device)</span><br><span class="line">netD = DCNet_Classifier(opt.ndf).to(device)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不训练 EN_f</span></span><br><span class="line"><span class="keyword">for</span> para <span class="keyword">in</span> LIA.EN_f.parameters():</span><br><span class="line">    para.requires_grad=<span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Loss_CrossEn = nn.BCELoss()</span><br><span class="line">optimizerG = torch.optim.Adam(filter(<span class="keyword">lambda</span> para: para.requires_grad, LIA.parameters()), lr=<span class="number">0.002</span>, betas=(<span class="number">0.5</span>, <span class="number">0.999</span>))</span><br><span class="line">optimizerD = torch.optim.Adam(netD.parameters(), lr=opt.lr, betas=(opt.beta1, <span class="number">0.999</span>))</span><br></pre></td></tr></table></figure></p>
+<h3 id="第一步训练-g-c-phi"><a href="#第一步训练-g-c-phi" class="headerlink" title="第一步训练$g,c,\phi$"></a>第一步训练$g,c,\phi$</h3><p> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training1.jpg" width="50%" height="50%"><br> 第一步训练是对抗训练，分为2步：<br> 　　　　① 计算损失函数，更新$c$的参数，使得损失函数变小。<br> 　　　　② 计算损失函数，更新$\phi$ 与$g$的参数，使得损失函数变大。<br> 代码如下：<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"> label = torch.FloatTensor(opt.batchSize)</span><br><span class="line">real_label = <span class="number">1</span></span><br><span class="line">fake_label = <span class="number">0</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">use GAN training strategy to get optimal g and D</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">1</span>, opt.epoch + <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> i, (imgs,_) <span class="keyword">in</span> enumerate(dataloader):</span><br><span class="line">        <span class="comment"># 固定生成器g，训练鉴别器D</span></span><br><span class="line">        optimizerD.zero_grad()</span><br><span class="line">        <span class="comment">## 让D尽可能的把真图片判别为1</span></span><br><span class="line">        imgs = imgs.to(device)</span><br><span class="line">        imgs = prepare_data(imgs)</span><br><span class="line">        output1 = netD(imgs)</span><br><span class="line">        label.data.fill_(real_label)</span><br><span class="line">        label=label.to(device)</span><br><span class="line">        errD_real = Loss_CrossEn(output1, label)</span><br><span class="line">        <span class="comment">#errD_real.backward()</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">## 让D尽可能把假图片判别为0</span></span><br><span class="line">        label.data.fill_(fake_label)</span><br><span class="line">        noise = torch.randn(opt.batchSize, opt.nz)</span><br><span class="line">        noise = noise.to(device)</span><br><span class="line">        fake = LIA.g(noise)  <span class="comment"># 生成假图</span></span><br><span class="line">        output2 = netD(fake.detach()) <span class="comment">#避免梯度传到G，因为G不用更新</span></span><br><span class="line">        errD_fake = Loss_CrossEn(output2, label)</span><br><span class="line">        <span class="comment">#errD_fake.backward()</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">## 计算regularization项</span></span><br><span class="line">        imgs.requires_grad = <span class="keyword">True</span></span><br><span class="line">        output3 = netD(imgs)</span><br><span class="line">        regularization = regularization_term(output3,imgs) <span class="comment">##用l2范数</span></span><br><span class="line">        imgs.requires_grad = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">##计算L = errD</span></span><br><span class="line">        errD = errD_fake + errD_real + opt.gamma/<span class="number">2</span>*regularization</span><br><span class="line">        errD.backward()</span><br><span class="line">        optimizerD.step()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 固定鉴别器D，训练生成器G</span></span><br><span class="line">        optimizerG.zero_grad()</span><br><span class="line">        <span class="comment"># 让D尽可能把G生成的假图判别为1</span></span><br><span class="line">        label.data.fill_(real_label)</span><br><span class="line">        label = label.to(device)</span><br><span class="line">        output4 = netD(fake)</span><br><span class="line">        errG = Loss_CrossEn(output4, label)</span><br><span class="line">        errG.backward()</span><br><span class="line">        optimizerG.step()</span><br><span class="line"></span><br><span class="line">        print(<span class="string">'[%d/%d][%d/%d] Loss_D: %.3f Loss_G %.3f'</span></span><br><span class="line">              % (epoch, opt.epoch, i, len(dataloader), errD.item(), errG.item()))</span><br><span class="line"></span><br><span class="line">    noise = torch.randn(opt.batchSize, opt.nz)</span><br><span class="line">    noise = noise.to(device)</span><br><span class="line">    fake = LIA.g(noise)</span><br><span class="line">    vutils.save_image(fake.data,</span><br><span class="line">                      <span class="string">'%s/fake_samples_epoch_%03d.png'</span> % (opt.outf, epoch),</span><br><span class="line">                      normalize=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="第二步训练-f"><a href="#第二步训练-f" class="headerlink" title="第二步训练$f$"></a>第二步训练$f$</h3><p> <img src="https://raw.githubusercontent.com/BIRD-TAO/page_image/master/LIA_training2.jpg" width="50%" height="50%"><br>第一步的循环结束后，第二步首先固定$c,g,\phi$中的参数，随后固定预训练的VGG11（特征提取器）的参数，从而训练$f$，使得原始数据与经过LIANET处理后的数据最为相似。最终将训练完毕的模型进行保存。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">encoder training to get optimal f</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment"># frozen g parameters</span></span><br><span class="line"><span class="keyword">for</span> para <span class="keyword">in</span> LIA.EN_f.parameters():</span><br><span class="line">    para.requires_grad=<span class="keyword">True</span></span><br><span class="line"><span class="keyword">for</span> para <span class="keyword">in</span> LIA.coupling.parameters():</span><br><span class="line">    para.requires_grad=<span class="keyword">False</span></span><br><span class="line"><span class="keyword">for</span> para <span class="keyword">in</span> LIA.scaling.parameters():</span><br><span class="line">    para.requires_grad=<span class="keyword">False</span></span><br><span class="line"><span class="keyword">for</span> para <span class="keyword">in</span> LIA.DC_g.parameters():</span><br><span class="line">    para.requires_grad=<span class="keyword">False</span></span><br><span class="line"><span class="keyword">for</span> para <span class="keyword">in</span> netD.parameters():</span><br><span class="line">    para.requires_grad=<span class="keyword">False</span></span><br><span class="line">    </span><br><span class="line">optimizerG = torch.optim.Adam(filter(<span class="keyword">lambda</span> para: para.requires_grad, LIA.parameters()), lr=<span class="number">0.002</span>, betas=(<span class="number">0.5</span>, <span class="number">0.999</span>))</span><br><span class="line"></span><br><span class="line">model_vgg = torchvision.models.vgg11(pretrained=<span class="keyword">True</span>)</span><br><span class="line"><span class="keyword">for</span> para <span class="keyword">in</span> model_vgg.parameters():</span><br><span class="line">    para.requires_grad = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(opt.epoch//<span class="number">2</span> + <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> i, (imgs,_) <span class="keyword">in</span> enumerate(dataloader):</span><br><span class="line">        optimizerG.zero_grad()</span><br><span class="line">        imgs = imgs.to(device)</span><br><span class="line">        imgs = prepare_data(imgs)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">## 真实图片为1的概率</span></span><br><span class="line">        output1 = netD(imgs)</span><br><span class="line">        label.data.fill_(real_label)</span><br><span class="line">        label=label.to(device)</span><br><span class="line">        err_real = Loss_CrossEn(output1, label)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">## 虚假图片为0的概率</span></span><br><span class="line">        label.data.fill_(fake_label)</span><br><span class="line">        fake = LIA(imgs)  <span class="comment"># 生成假图</span></span><br><span class="line">        output2 = netD(fake.detach()) <span class="comment">#避免梯度传到G，因为G不用更新</span></span><br><span class="line">        err_fake = Loss_CrossEn(output2, label)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">## 计算regularization项</span></span><br><span class="line">        imgs.requires_grad = <span class="keyword">True</span></span><br><span class="line">        output3 = netD(imgs)</span><br><span class="line">        regularization = regularization_term(output3,imgs) <span class="comment">##用l2范数</span></span><br><span class="line">        imgs.requires_grad = <span class="keyword">False</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">##计算feture exactor项</span></span><br><span class="line">        output3 = model_vgg(imgs)</span><br><span class="line">        fake = LIA(imgs)</span><br><span class="line">        output4 = model_vgg(fake)</span><br><span class="line">        Loss_FE = (output1 - output2).pow(<span class="number">2</span>).sum().sqrt() <span class="comment">## 用l2范数</span></span><br><span class="line">        </span><br><span class="line">        err_overall = err_real + err_fake + opt.gamma/<span class="number">2</span>*regularization + opt.alpha*Loss_FE</span><br><span class="line">        err_overall.backward()</span><br><span class="line">        optimizerG.step()</span><br><span class="line">        print(<span class="string">'[%d/%d][%d/%d] Loss_F: %.3f Loss_FE %.3f'</span></span><br><span class="line">              % (epoch, opt.epoch, i, len(dataloader), err_fake.item(), Loss_FE.item()))</span><br><span class="line"></span><br><span class="line">torch.save(LIA.state_dict(), <span class="string">'%s/LIA.pth'</span> % (opt.outf))</span><br><span class="line">torch.save(netD.state_dict(), <span class="string">'%s/netD.pth'</span> % (opt.outf))</span><br></pre></td></tr></table></figure></p>
+<h3 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=&apos;0&apos;  python3 -u train.py \</span><br><span class="line">    --nz 128 \</span><br><span class="line">    --ngf 64 \</span><br><span class="line">    --ndf 64 \</span><br><span class="line">    --epoch 30 \</span><br><span class="line">    --outf &apos;outputs/&apos;\</span><br><span class="line">    &gt; ./outputs/LIA_running.log &amp;</span><br></pre></td></tr></table></figure>
+<h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p>按照上述代码，周五晚上开始在搭载一块Tesla K80的GPU上运行，尚不知模型是否收敛。。。 请拭目以待。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    伯德涛
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://bird-tao.github.io/2020/04/17/LIA_implementation/" title="“隐含双射自编码器”编程实现">http://bird-tao.github.io/2020/04/17/LIA_implementation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/生成模型/" rel="tag"># 生成模型</a>
+          
+            <a href="/tags/GAN/" rel="tag"># GAN</a>
+          
+            <a href="/tags/VAE/" rel="tag"># VAE</a>
+          
+            <a href="/tags/NF/" rel="tag"># NF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/15/LIA_report/" rel="next" title="“隐含双射自编码器”读书笔记">
+                <i class="fa fa-chevron-left"></i> “隐含双射自编码器”读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.jpeg"
+                alt="伯德涛" />
+            
+              <p class="site-author-name" itemprop="name">伯德涛</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BIRD-TAO" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lbirdtao@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具准备"><span class="nav-number">2.</span> <span class="nav-text">工具准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型构建"><span class="nav-number">3.</span> <span class="nav-text">模型构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NICE中的Coupling-Layer以及Scaling-Layer搭建-phi"><span class="nav-number">3.1.</span> <span class="nav-text">使用NICE中的Coupling Layer以及Scaling Layer搭建$\phi$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用DCGAN中的Generator与Classifier搭建-g-与-c"><span class="nav-number">3.2.</span> <span class="nav-text">使用DCGAN中的Generator与Classifier搭建$g$与$c$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建与-g-对称的-f-网络"><span class="nav-number">3.3.</span> <span class="nav-text">构建与$g$对称的$f$网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整合上述类，构建LIA"><span class="nav-number">3.4.</span> <span class="nav-text">整合上述类，构建LIA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型训练"><span class="nav-number">4.</span> <span class="nav-text">模型训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数定义"><span class="nav-number">4.1.</span> <span class="nav-text">参数定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步训练-g-c-phi"><span class="nav-number">4.2.</span> <span class="nav-text">第一步训练$g,c,\phi$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步训练-f"><span class="nav-number">4.3.</span> <span class="nav-text">第二步训练$f$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行命令"><span class="nav-number">4.4.</span> <span class="nav-text">运行命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果"><span class="nav-number">5.</span> <span class="nav-text">实验结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">伯德涛</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'nCBcvSHMHL06VjCc5Axe8KOX-gzGzoHsz',
+        appKey: '8DEsvKcJCo2LMy2szyLYyXfR',
+        placeholder: 'Think out loud!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.4/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+ 
+
+</body>
+</html>
