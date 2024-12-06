@@ -75,6 +75,34 @@
         top: 0;
         white-space: nowrap;
     }
+
+    /* Add styles for section alignment */
+    .section {
+      margin: 40px 0;
+      padding: 0 20px;
+    }
+
+    .section-heading {
+      margin-bottom: 20px;
+      font-size: 1.2em; /* Reduced heading size */
+    }
+
+    h1.section-heading {
+      font-size: 1.2em; /* Make section headings smaller */
+    }
+
+    .section-content {
+      margin-left: 20px;
+    }
+
+    .pub-list {
+      margin-left: 20px;
+    }
+
+    .pub {
+      margin-bottom: 20px;
+    }
+
   </style>
   
 </head>
@@ -101,8 +129,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="trigger">
     <a class="page-link" href="#bio"><b>Biography</b></a>
-    <a class="page-link" href="#timeline"><b>Education</b></a>
-    <a class="page-link" href="#timeline"><b>Experiences</b></a>
+    <a class="page-link" href="#Education"><b>Education</b></a>
+    <a class="page-link" href="#Experiences"><b>Experiences</b></a>
     <a class="page-link" href="#publications"><b>Publications</b></a>
     <a class="page-link" href="#awards"><b>Honors & Awards</b></a>
     <!-- <a class="page-link" href="#teaching"><b>Teaching </b></a> -->
@@ -143,66 +171,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <!-- <div id="my-desc" class="profile-col profile-col-2 hide">
-        <div id="my-desc-title">
-          Another me.
-        </div>
-        <div id="my-desc-content">
-          I enjoy running, traveling, hiking, movies, music and so much more<br>
-        </div>
-      </div> -->
     </div>
   </div>
-  <!-- <script type="text/javascript">
-    function deepFeature()
-    {
-      $('#profile-avatar').attr('src', 'images/self-portrait/deep-me.jpg');
-      $('#profile-avatar').removeClass('border-dark');
-      $('#profile-avatar').addClass('border-bright');
-
-      $('#profile-cover').removeClass('shallow-bg');
-      $('#profile-cover').addClass('deep-bg');
-      
-      $('#profile-namecard').removeClass('wrapper-light');
-      $('#profile-namecard').addClass('wrapper-dark');
-      
-      $('#my-desc').removeClass('hide');
-      $('#my-contact').addClass('hide');    
-      // console.log('Move in now...');
-    }
-
-    function shallowFeature()
-    {
-      $('#profile-avatar').attr('src', 'images/self-portrait/me.jpg');
-      $('#profile-avatar').removeClass('border-bright');
-      $('#profile-avatar').addClass('border-dark');
-
-      $('#profile-cover').removeClass('deep-bg');
-      $('#profile-cover').addClass('shallow-bg');
-      
-      $('#profile-namecard').removeClass('wrapper-dark');
-      $('#profile-namecard').addClass('wrapper-light');
-      
-      $('#my-contact').removeClass('hide');
-      $('#my-desc').addClass('hide');
-      // console.log('Move out now...');
-    }
-
-    $(function() { 
-      $('#my-pic').hover(deepFeature, shallowFeature);
-    })
-
-  </script> -->
 
 <div class="page-content">
 <div class="wrapper">
-<div id="bio" class="bio">
 
-  <h1 class="md-heading text-left">
+<div id="bio" class="section">
+  <h1 class="section-heading">
     <i class="fa fa-id-card" aria-hidden="true"></i>
     About
   </h1>
-  <div class="bio-body" style="overflow:hidden;">
+  <div class="section-content">
     <p> 
       I am a CS Ph.D student at <a href="https://www.westlake.edu.cn/"><strong>CAIRI@Westlake University</strong></a>. 
       I obtained my B.S. degree in Solid State Physics from <a href="https://en.scu.edu.cn">Sichuan University</a>. 
@@ -215,42 +195,53 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
  
-  
-<div id="Education" class="bio">
-
-  <h1 class="md-heading text-left">
+<div id="Education" class="section">
+  <h1 class="section-heading">
     <i class="fa fa-graduation-cap" aria-hidden="true"></i>
     Education
   </h1>
-  <div class="bio-body" style="overflow:hidden;">
+  <div class="section-content">
     <table>
       <tbody><tr>
           <td width="90%">
               <br>
-              <strong>Ph.D.</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sep. 2021 - Present  <br> 
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Westlake University, Hangzhou, China<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Ph.D. student in Computer Science; <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Under the supervision of <a href="https://scholar.google.com/citations?user=Y-nyLGIAAAAJ&hl=zh-CN">Stan Z. Li</a>
+              <strong>Ph.D.</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Sep. 2021 -- Present</strong>  <br> 
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <strong>Westlake University</strong>, Hangzhou, China<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Ph.D. student in Computer Science; <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Under the supervision of <a href="https://scholar.google.com/citations?user=Y-nyLGIAAAAJ&hl=zh-CN">Stan Z. Li</a>
                 <br>
             </td>
           <td width="10%">
-            <img src="images/icon/westlake.png" width="60%" style="display: block; margin-left: auto; margin-right: auto;">
+            <img src="images/icon/westlake.png" width="70%" style="display: block; margin-left: auto; margin-right: auto;">
           </td>
         </tr>
     </tbody></table>
   </div>
-  <br>
 </div>
 
-
-
-<div id="Experiences" class="bio">
-
-  <h1 class="md-heading text-left">
+<div id="news" class="section">
+  <h1 class="section-heading">
+    <i class="fa fa-tasks" aria-hidden="true"></i>
+    News
+  </h1>  
+  <div class="section-content">
+    <ul>
+      <li class="indented" data-date="[Dec, 2024]"> One paper (<span style="font-variant: small-caps;">DiffBP</span>) is accepted by <a href="https://pubs.rsc.org/en/content/articlepdf/2024/SC/D4SC05894A?page=search">Chemical Science</a>. </li>
+      <li class="indented" data-date="[Dec, 2024]"> One paper (<span style="font-variant: small-caps;">Delete</span>) is accepted by Journal of the American Chemical Society. </li>
+      <li class="indented" data-date="[Apr, 2024]"> Four papers (<span style="font-variant: small-caps;">PPFlow</span>; <span style="font-variant: small-caps;">GeoAB</span>; <span style="font-variant: small-caps;">Prompt-DDG</span>; <span style="font-variant: small-caps;">Re-Dock</span>) are accepted by ICML 2024, with <span style="font-variant: small-caps;">Re-Dock</span> as spotlight presentation. </li>
+      <li class="indented" data-date="[Jan, 2024]"> One paper (<span style="font-variant: small-caps;">MAPE-PPI</span>) is accepted by ICLR 2024, as spotlight presentation. </li>
+      <li class="indented" data-date="[Dec, 2023]"> Two papers (<span style="font-variant: small-caps;">Psc-cpi</span>; <span style="font-variant: small-caps;">SAO</span>) are accepted by AAAI 2024. </li>
+      <li class="indented" data-date="[Oct, 2023]"> One paper (<span style="font-variant: small-caps;">D3FG</span>) is accepted by NeurIPS 2023. </li>
+    </ul>
+  </div>
+</div>
+ 
+<div id="Experiences" class="section">
+  <h1 class="section-heading">
     <i class="fa fa-tasks" aria-hidden="true"></i>
     Experiences
   </h1>
-  <div class="bio-body" style="overflow:hidden;">
+  <div class="section-content">
     <table>
       <tbody>
       <tr>
@@ -283,7 +274,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </li>
         </td>
         <td width="10%">
-          <img src="images/icon/tsinghua.png" width="60%" style="display: block; margin-left: auto; margin-right: auto;">
+          <img src="images/icon/tsinghua.png" width="70%" style="display: block; margin-left: auto; margin-right: auto;">
         </td>
       </tr>
         
@@ -291,8 +282,275 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td></td>
         <td></td>
       </tr>
-
     </tbody></table>
   </div>
-  <br>
 </div>
+
+<div id="publications" class="section">
+  <h1 class="section-heading">
+    <i class="fa fa-file" aria-hidden="true"></i>
+    Selected Publications
+  </h1>
+
+  <div class="pub-list">
+    <b>Molecule Design:</b><br>
+
+  <div class="pub">
+    <div class="title">
+      <li>DiffBP: Generative Diffusion of 3D Molecules for Target Protein Binding</li>
+    <div class="desc">
+    </div>
+    </div>
+    <div class="authors">
+      <font style="font-size: 9pt;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Lin, H.</u>, Huang, Y., Zhang, O., Ma, S., Liu, M., Li, X., Wu, L., Ji, S., Hou, T., Li, S. Z. Q.
+    </div>
+    <div class="publish">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="publisher">Chemical Science, Royal Society of Chemistry, 2024</span>
+      <span class="place"></span>
+    </div>
+    <div class="tags">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://pubs.rsc.org/en/Content/ArticleLanding/2024/SC/D4SC05894A">Paper</a>]
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://github.com/EDAPINENUT/diffbp">Code</a>]
+    </font> 
+    </div>
+  </div>
+  
+ 
+	  
+	<div class="pub">
+    <div class="title">
+      <li>Deep Lead Optimization: Leveraging Generative AI for Structural Modification</li>
+    <div class="desc">
+    </div>
+</div>
+    <div class="authors">
+      <font style="font-size: 9pt;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zhang, O.*, <u>Lin, H.* </u>, Zhang, H., Zhao, H., Huang, Y., Hsieh, C. Y., Pan, P., Hou, T.
+    </div>
+    <div class="publish">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="publisher">Journal of the American Chemical Society, 2024</span>
+      <span class="place"></span>
+    </div>
+    <div class="tags">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://pubs.acs.org/doi/10.1021/jacs.4c11686">Paper</a>]
+</font>
+    </div>
+</div>
+
+<div class="pub">
+    <div class="title">
+      <li>Functional-Group-Based Diffusion for Pocket-specific Molecule Generation and Elaboration</li>
+    <div class="desc">
+    </div>
+</div>
+    <div class="authors">
+      <font style="font-size: 9pt;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Lin, H.</u>, Huang, Y., Zhang, O., Liu, Y., Wu, L., Li, S., Chen, Z., Li, SZ.
+    </div>
+    <div class="publish">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="publisher">Neural Information Processing Systems, 2023</span>
+      <span class="place"></span>
+    </div>
+    <div class="tags">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://proceedings.neurips.cc/paper_files/paper/2023/file/6cdd4ce9330025967dd1ed0bed3010f5-Paper-Conference.pdf">Paper</a>]
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://github.com/EDAPINENUT/D3FG">Code</a>]
+      </font>
+    </div>
+</div>
+
+
+<b>Protein&Peptide Design:</b><br> 
+
+<div class="pub">
+    <div class="title">
+      <li>GeoAB: Towards Realistic Antibody Design and Reliable Affinity Maturation</li>
+    <div class="desc">
+    </div>
+</div>
+    <div class="authors">
+      <font style="font-size: 9pt;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Lin, H.</u>, Wu, L., Huang, Y., Liu, Y., Zhang, O., Zhou, Y., Sun, R., Li, SZ.
+    </div>
+    <div class="publish">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="publisher">International Conference on Machine Learning, 2024</span>
+      <span class="place"></span>
+    </div>
+    <div class="tags">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://openreview.net/pdf?id=6pHP51F55x">Paper</a>]
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://github.com/EDAPINENUT/GeoAB">Code</a>]
+</font>
+    </div>
+</div>
+
+
+<div class="pub">
+    <div class="title">
+      <li>Target-aware Peptide Design with Torsional Flow Matching</li>
+    <div class="desc">
+    </div>
+</div>
+    <div class="authors">
+      <font style="font-size: 9pt;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Lin, H.</u>, Zhang, O., Zhao, H., Jiang, D., Wu, L., Liu, Z., Huang, Y., Li, SZ.
+    </div>
+    <div class="publish">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="publisher">International Conference on Machine Learning, 2024</span>
+      <span class="place"></span>
+    </div>
+    <div class="tags">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://openreview.net/pdf?id=70jplnkLMe">Paper</a>]
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://github.com/edapinenut/ppflow">Code</a>]
+</font>
+    </div>
+</div>
+
+
+<b>Continuous Flow & Extreme Events:</b><br>
+
+<div class="pub">
+    <div class="title">
+      <li>Exploring Generative Neural Temporal Point Process</li>
+    <div class="desc">
+    </div>
+</div>
+    <div class="authors">
+      <font style="font-size: 9pt;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Lin, H.</u>, Wu, L., Zhao, G., Liu, P., Li, SZ.
+    </div>
+    <div class="publish">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="publisher">Transaction on Machine Learning Research, 2022</span>
+      <span class="place"></span>
+    </div>
+    <div class="tags">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://openreview.net/pdf?id=NPfS5N3jbL">Paper</a>]
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://github.com/edapinenut/gntpp">Code</a>]
+    </font>
+    </div>
+</div>
+
+
+<div class="pub">
+    <div class="title">
+      <li>Conditional Local Convolution for Spatio-temporal Meteorological Forecasting</li>
+    <div class="desc">
+    </div>
+</div>
+    <div class="authors">
+      <font style="font-size: 9pt;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Lin, H.</u>, Gao, Z., Xu, Y., Wu, L., Li, L., Li, SZ.
+    </div>
+    <div class="publish">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="publisher">AAAI Conference on Artificial Intelligence, 2022</span>
+      <span class="place"></span>
+    </div>
+    <div class="tags">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://ojs.aaai.org/index.php/AAAI/article/view/20711">Paper</a>]
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a class="tag" href="https://github.com/EDAPINENUT/clcrn">Code</a>]
+    </font>
+    </div>
+</div>
+
+
+  </div>
+</div>
+
+<div id="awards" class="section">
+  <h1 class="section-heading">
+    <i class="fa fa-tasks" aria-hidden="true"></i>
+    Selected Honors & Awards
+  </h1>
+  <div class="section-content">
+    <ul>
+      <li> National Scholarship, 2016</li>
+      <li> National Scholarship, 2017</li>
+    </ul>
+  </div>
+</div>
+
+<div id="misc" class="section">
+  <h1 class="section-heading">
+    <i class="fa fa-heartbeat" aria-hidden="true"></i>
+    Miscellaneous
+  </h1>  
+  <div class="section-content">
+    <p>
+    I enjoy cooking, brewing coffee, and spending time with my family and my cats (Edamame the Bicolor Garfield and Pinenut the British Golden Longhair).<br>
+    </p>
+    
+    <table style="width:80%;max-width:400px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+      <tbody><tr>
+        <td style="width:100%; vertical-align:middle; text-align:center;"><p>
+          <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=OAyJtSNrfGHniEx0AmCxfcfDSrJWAl8MaPPnBAPO4_c&cmn=ff5353&co=1a7cc1&cmo=2dba2d&ct=1a7cc1'></script>
+        </p></td>
+      </tr></tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Personal Email:</li>
+          <li><a href="mailto:">linhaitao[at]westlake.edu.cn</a></li>
+          <li><a href="mailto:">lbirdtao[at]gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col  footer-col-2">
+          <a href="https://scholar.google.com/citations?user=o5A23qIAAAAJ&hl=en" class="icon-button github">
+          <i class="ai ai-google-scholar-square icon-github"></i>
+            <span></span>
+          </a>
+          <a href="https://github.com/edapinenut" class="icon-button github">
+            <i class="fa fa-github icon-github"></i>
+            <span></span>
+          </a>
+      </div>
+	<div class="footer-col footer-col-3">
+    <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fwanjiazhao1203.github.io&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false"/></a>
+		</p>
+	</div>
+  </div>
+  </div>
+</footer>
+
+<div class="back-to-top">Top</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    var offset = 220;
+    var duration = 500;
+    jQuery(window).scroll(function() {
+        if (jQuery(this).scrollTop() > offset) {
+            jQuery('.back-to-top').fadeIn(duration);
+        } else {
+            jQuery('.back-to-top').fadeOut(duration);
+    
+        }
+    });
+    jQuery('.back-to-top').click(function(event) {
+        event.preventDefault();
+        jQuery('html, body').animate({scrollTop: 0}, duration);
+        return false;
+    })
+});
+</script>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-60071442-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+<script src="custom-pub.js"></script>
+
+</body>
+</html>
