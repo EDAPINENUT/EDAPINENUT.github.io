@@ -101,6 +101,26 @@
       margin-bottom: 20px;
     }
 
+    /* One indentation for every list: item text starts where the News items do; publications nest one level
+       below their category. */
+    #Experiences td > li {
+      margin-left: 27px;
+    }
+
+    .pub-list > .pub-cat {
+      display: list-item;
+      margin-left: 30px;
+      margin-bottom: 12px;
+    }
+
+    .pub-list .pub {
+      margin-left: 60px;
+    }
+
+    .pub-list .pub li {
+      list-style-type: circle;
+    }
+
   </style>
   
 </head>
@@ -252,13 +272,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li>
         <strong style="white-space: nowrap;"><a href="https://edapinenut.github.io/contrast_gen/">Contrastive Generation: Understanding the Training of a Few-step Generator</a></strong>
         <div class="blog-row" style="display: flex; align-items: flex-start; margin-top: 4px;">
-          <div class="blog-text" style="flex: 1; min-width: 0; padding-right: 18px; font-size: 10pt;">
+          <div class="blog-text" style="flex: 0 1 66.67%; max-width: 66.67%; font-size: 10pt;">
             <span class="grey-hl">[Oct, 2026]</span><br>
             MeanFlow, DMD and drifting models train a few-step generator with one update: each sample is pulled toward a <em>positive</em> and pushed away from a <em>negative</em>. The methods differ only in how the two points are built. A CPU-only 2D toy reproduces every figure.<br>
             [<a class="tag" href="https://edapinenut.github.io/contrast_gen/">Blog</a>]
             &nbsp;&nbsp;&nbsp; [<a class="tag" href="https://github.com/EDAPINENUT/contrast_gen">Code</a>]
           </div>
-          <a class="blog-thumb" href="https://edapinenut.github.io/contrast_gen/" style="flex: none;">
+          <a class="blog-thumb" href="https://edapinenut.github.io/contrast_gen/" style="flex: none; margin-left: auto;">
             <img src="images/blog/contrast_gen.png" alt="Contrastive Generation: pull toward the positive, push away from the negative" style="display: block; height: 110px; width: auto; border: 1px solid #e3d3d1; border-radius: 4px;">
           </a>
         </div>
@@ -266,12 +286,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </ul>
   </div>
   <script>
-    // The thumbnail is as tall as the text beside it (date, summary, links); the text reflows as the thumbnail
-    // width changes, so the height is settled in a few passes.
+    // The thumbnail is as tall as the text beside it (date, summary, links), which takes at most 2/3 of the row.
     function fitBlogThumbs() {
       document.querySelectorAll(".blog-row").forEach(function (row) {
-        var text = row.querySelector(".blog-text"), img = row.querySelector(".blog-thumb img");
-        for (var k = 0; k < 4; k++) { img.style.height = text.offsetHeight + "px"; }
+        row.querySelector(".blog-thumb img").style.height = row.querySelector(".blog-text").offsetHeight + "px";
       });
     }
     window.addEventListener("load", fitBlogThumbs);
@@ -356,7 +374,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="pub-list">
 
-	<b>Fundamental Generative Modeling:</b><br>
+	<b class="pub-cat">Fundamental Generative Modeling:</b>
 	<div class="pub">
     <div class="title">
       <li> <a href="https://edapinenut.github.io/explicitshortcut-project-page/">On the Design of One-step Diffusion via Shortcutting Flow Paths</a></li>
@@ -422,7 +440,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
 	  
-    <b>Generative Modeling for Molecule Design:</b><br>
+    <b class="pub-cat">Generative Modeling for Molecule Design:</b>
 
   <div class="pub">
     <div class="title">
