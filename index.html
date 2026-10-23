@@ -248,29 +248,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     Blogs
   </h1>
   <div class="section-content">
-    <table>
-      <tbody>
-        <tr>
-          <td width="58%" style="vertical-align: middle; padding-right: 20px;">
-            <li>
-              <strong><a href="https://edapinenut.github.io/contrast_gen/">Contrastive Generation: Understanding the Training of a Few-step Generator</a></strong><br>
-              <font style="font-size: 10pt;">
-                &nbsp;&nbsp;&nbsp; <span class="grey-hl">[Oct, 2026]</span><br>
-                &nbsp;&nbsp;&nbsp; MeanFlow, DMD and drifting models train a few-step generator with one update: each sample is pulled toward a <em>positive</em> and pushed away from a <em>negative</em>. The methods differ only in how the two points are built. A CPU-only 2D toy reproduces every figure.<br>
-                &nbsp;&nbsp;&nbsp; [<a class="tag" href="https://edapinenut.github.io/contrast_gen/">Blog</a>]
-                &nbsp;&nbsp;&nbsp; [<a class="tag" href="https://github.com/EDAPINENUT/contrast_gen">Code</a>]
-              </font>
-            </li>
-          </td>
-          <td width="42%" style="vertical-align: middle;">
-            <a href="https://edapinenut.github.io/contrast_gen/">
-              <img src="images/blog/contrast_gen.png" alt="Contrastive Generation: pull toward the positive, push away from the negative" style="width: 100%; border: 1px solid #e3d3d1; border-radius: 4px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);">
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ul>
+      <li>
+        <strong style="white-space: nowrap;"><a href="https://edapinenut.github.io/contrast_gen/">Contrastive Generation: Understanding the Training of a Few-step Generator</a></strong>
+        <div class="blog-row" style="display: flex; align-items: flex-start; margin-top: 4px;">
+          <div class="blog-text" style="flex: 1; min-width: 0; padding-right: 18px; font-size: 10pt;">
+            <span class="grey-hl">[Oct, 2026]</span><br>
+            MeanFlow, DMD and drifting models train a few-step generator with one update: each sample is pulled toward a <em>positive</em> and pushed away from a <em>negative</em>. The methods differ only in how the two points are built. A CPU-only 2D toy reproduces every figure.<br>
+            [<a class="tag" href="https://edapinenut.github.io/contrast_gen/">Blog</a>]
+            &nbsp;&nbsp;&nbsp; [<a class="tag" href="https://github.com/EDAPINENUT/contrast_gen">Code</a>]
+          </div>
+          <a class="blog-thumb" href="https://edapinenut.github.io/contrast_gen/" style="flex: none;">
+            <img src="images/blog/contrast_gen.png" alt="Contrastive Generation: pull toward the positive, push away from the negative" style="display: block; height: 110px; width: auto; border: 1px solid #e3d3d1; border-radius: 4px;">
+          </a>
+        </div>
+      </li>
+    </ul>
   </div>
+  <script>
+    // The thumbnail is as tall as the text beside it (date, summary, links); the text reflows as the thumbnail
+    // width changes, so the height is settled in a few passes.
+    function fitBlogThumbs() {
+      document.querySelectorAll(".blog-row").forEach(function (row) {
+        var text = row.querySelector(".blog-text"), img = row.querySelector(".blog-thumb img");
+        for (var k = 0; k < 4; k++) { img.style.height = text.offsetHeight + "px"; }
+      });
+    }
+    window.addEventListener("load", fitBlogThumbs);
+    window.addEventListener("resize", fitBlogThumbs);
+  </script>
 </div>
  
 <div id="Experiences" class="section">
